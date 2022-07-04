@@ -1,14 +1,3 @@
-# FastMRI_challenge
-2022 SNU FastMRI challenge
+# 2021 SNU FastMRI challenge
 
-## Branch
-- 2021_baby_unet [3]
-- 2022 baby_unet [3]
-- 2022 varnet [2]
-
-## Reference
-[1] Zbontar, J.*, Knoll, F.*, Sriram, A.*, Murrell, T., Huang, Z., Muckley, M. J., ... & Lui, Y. W. (2018). fastMRI: An Open Dataset and Benchmarks for Accelerated MRI. arXiv preprint arXiv:1811.08839.
-
-[2] Sriram, A.*, Zbontar, J.*, Murrell, T., Defazio, A., Zitnick, C. L., Yakubova, N., ... & Johnson, P. (2020). End-to-End Variational Networks for Accelerated MRI Reconstruction. In MICCAI, pages 64-73.
-
-[3] Ronneberger, O., Fischer, P., & Brox, T. (2015, October). U-net: Convolutional networks for biomedical image segmentation. In International Conference on Medical image computing and computer-assisted intervention (pp. 234-241). Springer, Cham.
+![포스터v4 3 7_font_fin](https://user-images.githubusercontent.com/49898081/124547217-c77fbd00-de66-11eb-8994-14690a4d874c.jpg)
