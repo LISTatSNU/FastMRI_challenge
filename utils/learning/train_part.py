@@ -36,7 +36,7 @@ def train_epoch(args, epoch, model, data_loader, optimizer, loss_type):
                 f'Loss = {loss.item():.4g} '
                 f'Time = {time.perf_counter() - start_iter:.4f}s',
             )
-        start_iter = time.perf_counter()
+            start_iter = time.perf_counter()
     total_loss = total_loss / len_loader
     return total_loss, time.perf_counter() - start_epoch
 
@@ -71,7 +71,7 @@ def validate(args, model, data_loader):
         inputs[fname] = np.stack(
             [out for _, out in sorted(inputs[fname].items())]
         )
-        metric_loss = sum([ssim_loss(targets[fname], reconstructions[fname]) for fname in reconstructions])
+    metric_loss = sum([ssim_loss(targets[fname], reconstructions[fname]) for fname in reconstructions])
     num_subjects = len(reconstructions)
     return metric_loss, num_subjects, reconstructions, targets, inputs, time.perf_counter() - start
 
