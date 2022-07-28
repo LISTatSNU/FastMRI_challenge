@@ -12,14 +12,14 @@ from pathlib import Path
 def parse():
     parser = argparse.ArgumentParser(description='Train Unet on FastMRI challenge Images',
                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('-g', '--GPU-NUM', type=int, default=0, help='GPU number to allocate')
+    parser.add_argument('-g', '--GPU-NUM', type=int, default=3, help='GPU number to allocate')
     parser.add_argument('-b', '--batch-size', type=int, default=1, help='Batch size')
-    parser.add_argument('-e', '--num-epochs', type=int, default=2, help='Number of epochs')
+    parser.add_argument('-e', '--num-epochs', type=int, default=1, help='Number of epochs')
     parser.add_argument('-l', '--lr', type=float, default=1e-3, help='Learning rate')
     parser.add_argument('-r', '--report-interval', type=int, default=500, help='Report interval')
     parser.add_argument('-n', '--net-name', type=Path, default='test_varnet', help='Name of network')
-    parser.add_argument('-t', '--data-path-train', type=Path, default='../Data/train/', help='Directory of train data')
-    parser.add_argument('-v', '--data-path-val', type=Path, default='../Data/validation/', help='Directory of validation data')
+    parser.add_argument('-t', '--data-path-train', type=Path, default='../Data/leader_final/', help='Directory of train data')
+    parser.add_argument('-v', '--data-path-val', type=Path, default='../Data/test_final/', help='Directory of validation data')
     
     parser.add_argument('--cascade', type=int, default=1, help='Number of cascades | Should be less than 12') ## important hyperparameter
     parser.add_argument('--input-key', type=str, default='kspace', help='Name of input key')

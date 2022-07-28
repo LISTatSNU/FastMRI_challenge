@@ -18,17 +18,12 @@ def test(args, model, data_loader):
 
             for i in range(output.shape[0]):
                 reconstructions[fnames[i]][int(slices[i])] = output[i].cpu().numpy()
-                inputs[fnames[i]][int(slices[i])] = input[i].cpu().numpy()
 
     for fname in reconstructions:
         reconstructions[fname] = np.stack(
             [out for _, out in sorted(reconstructions[fname].items())]
         )
-    for fname in inputs:
-        inputs[fname] = np.stack(
-            [out for _, out in sorted(inputs[fname].items())]
-        )
-    return reconstructions, inputs
+    return reconstructions, None
 
 
 def forward(args):

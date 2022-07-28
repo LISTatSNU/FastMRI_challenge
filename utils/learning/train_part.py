@@ -51,19 +51,18 @@ def validate(args, model, data_loader):
     model.eval()
     reconstructions = defaultdict(dict)
     targets = defaultdict(dict)
-    inputs = defaultdict(dict)
     start = time.perf_counter()
 
     with torch.no_grad():
         for iter, data in enumerate(data_loader):
-            input, target, _, fnames, slices = data
-            input = input.cuda(non_blocking=True)
-            output = model(input)
+            mask, kspace, target, _, fnames, slices = data
+            kspace = kspace.cuda(non_blocking=True)
+            mask = mask.cuda(non_blocking=True)
+            output = model(kspace, mask)
 
             for i in range(output.shape[0]):
                 reconstructions[fnames[i]][int(slices[i])] = output[i].cpu().numpy()
                 targets[fnames[i]][int(slices[i])] = target[i].numpy()
-                inputs[fnames[i]][int(slices[i])] = input[i].cpu().numpy()
 
     for fname in reconstructions:
         reconstructions[fname] = np.stack(
@@ -73,13 +72,9 @@ def validate(args, model, data_loader):
         targets[fname] = np.stack(
             [out for _, out in sorted(targets[fname].items())]
         )
-    for fname in inputs:
-        inputs[fname] = np.stack(
-            [out for _, out in sorted(inputs[fname].items())]
-        )
-        metric_loss = sum([ssim_loss(targets[fname], reconstructions[fname]) for fname in reconstructions])
+    metric_loss = sum([ssim_loss(targets[fname], reconstructions[fname]) for fname in reconstructions])
     num_subjects = len(reconstructions)
-    return metric_loss, num_subjects, reconstructions, targets, inputs, time.perf_counter() - start
+    return metric_loss, num_subjects, reconstructions, targets, None, time.perf_counter() - start
 
 
 def save_model(args, exp_dir, epoch, model, optimizer, best_val_loss, is_new_best):

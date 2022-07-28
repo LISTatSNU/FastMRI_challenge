@@ -14,13 +14,14 @@ class SliceData(Dataset):
         self.image_examples = []
         self.kspace_examples = []
 
-        image_files = list(Path(root / "image").iterdir())
-        for fname in sorted(image_files):
-            num_slices = self._get_metadata(fname)
+        if not forward:
+            image_files = list(Path(root / "image").iterdir())
+            for fname in sorted(image_files):
+                num_slices = self._get_metadata(fname)
 
-            self.image_examples += [
-                (fname, slice_ind) for slice_ind in range(num_slices)
-            ]
+                self.image_examples += [
+                    (fname, slice_ind) for slice_ind in range(num_slices)
+                ]
 
         kspace_files = list(Path(root / "kspace").iterdir())
         for fname in sorted(kspace_files):
@@ -43,18 +44,20 @@ class SliceData(Dataset):
         return len(self.image_examples)
 
     def __getitem__(self, i):
-        image_fname, dataslice = self.image_examples[i]
-        kspace_fname, _ = self.kspace_examples[i]
+        if not self.forward:
+            image_fname, _ = self.image_examples[i]
+        kspace_fname, dataslice = self.kspace_examples[i]
 
         with h5py.File(kspace_fname, "r") as hf:
             input = hf[self.input_key][dataslice]
             mask =  np.array(hf["mask"])
-        with h5py.File(image_fname, "r") as hf:
-            if self.forward:
-                target = -1
-            else:
+        if self.forward:
+            target = -1
+            attrs = -1
+        else:
+            with h5py.File(image_fname, "r") as hf:
                 target = hf[self.target_key][dataslice]
-            attrs = dict(hf.attrs)
+                attrs = dict(hf.attrs)
             
         return self.transform(mask, input, target, attrs, image_fname.name, dataslice)
 

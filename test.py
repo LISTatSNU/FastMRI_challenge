@@ -10,7 +10,7 @@ from utils.learning.test_part import forward
 def parse():
     parser = argparse.ArgumentParser(description='Test Unet on FastMRI challenge Images',
                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('-g', '--GPU_NUM', type=int, default=0, help='GPU number to allocate')
+    parser.add_argument('-g', '--GPU_NUM', type=int, default=3, help='GPU number to allocate')
     parser.add_argument('-b', '--batch-size', type=int, default=1, help='Batch size')
     parser.add_argument('-n', '--net_name', type=Path, default='test_varnet', help='Name of network')
     parser.add_argument('-p', '--data_path', type=Path, default='../Data/leaderboard/', help='Directory of test data')
