@@ -42,7 +42,7 @@ def train_epoch(args, epoch, model, data_loader, optimizer, loss_type):
                 f'Loss = {loss.item():.4g} '
                 f'Time = {time.perf_counter() - start_iter:.4f}s',
             )
-        start_iter = time.perf_counter()
+            start_iter = time.perf_counter()
     total_loss = total_loss / len_loader
     return total_loss, time.perf_counter() - start_epoch
 
