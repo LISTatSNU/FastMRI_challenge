@@ -9,11 +9,11 @@ from utils.model.varnet import VarNet
 def test(args, model, data_loader):
     model.eval()
     reconstructions = defaultdict(dict)
-    inputs = defaultdict(dict)
     
     with torch.no_grad():
         for (mask, kspace, _, _, fnames, slices) in data_loader:
             kspace = kspace.cuda(non_blocking=True)
+            mask = mask.cuda(non_blocking=True)
             output = model(kspace, mask)
 
             for i in range(output.shape[0]):

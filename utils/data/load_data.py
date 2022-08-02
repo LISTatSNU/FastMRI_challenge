@@ -41,7 +41,7 @@ class SliceData(Dataset):
         return num_slices
 
     def __len__(self):
-        return len(self.image_examples)
+        return len(self.kspace_examples)
 
     def __getitem__(self, i):
         if not self.forward:
@@ -59,7 +59,7 @@ class SliceData(Dataset):
                 target = hf[self.target_key][dataslice]
                 attrs = dict(hf.attrs)
             
-        return self.transform(mask, input, target, attrs, image_fname.name, dataslice)
+        return self.transform(mask, input, target, attrs, kspace_fname.name, dataslice)
 
 
 def create_data_loaders(data_path, args, isforward=False):
