@@ -51,6 +51,7 @@
 │           ├── ...
 │           └── brain_acc8_181.h5
 │
+├── .gitignore
 ├── evaluate.py
 ├── leaderboard_eval.py
 ├── plot.ipynb
@@ -81,10 +82,17 @@ pip3 install scipy
 
 ## Train
 ```bash
-python3 train.py -g 0 -b 4 -e 10 -l 0.003 -r 1 -n baby_unet -t ./Dataset/Training/image/ -v ./Dataset/Validation/image/
+python3 train.py -g 0 -b 1 -e 10 -l 0.003 -r 1 -n baby_unet -t ./Dataset/Training/image/ -v ./Dataset/Validation/image/
 ```
 
 ## Evaluate(Evaluation set)
+```bash
+python3 evaluate.py -g 0 -b 1 -n baby_unet -p ./Data/Leaderboard/image/ -m acc4
+```
+
+```bash
+python3 evaluate.py -g 0 -b 4 -n baby_unet -p ./Data/Leaderboard/image/ -m acc8
+```
 
 ## Evaluate(LeaderBoard Dataset)
 
