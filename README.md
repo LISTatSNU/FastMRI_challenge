@@ -59,10 +59,18 @@
     └── model
         └── unet.py
 ```
+## Requirements
+```bash
+conda create -n baby_unet
+conda activate baby_unet
+pip3 install torch
+pip3 install scipy
+
+```
 
 ## Train
 ```bash
-python -g 0 -b 4 -e 10 -l 0.003 -r 1 -n baby_unet -t /your_training_dataset_path/ -v /your_evaluation_dataset_path/
+python3 train.py -g 0 -b 4 -e 10 -l 0.003 -r 1 -n baby_unet -t ./Dataset/Training
 ```
 
 ## Evaluate(Evaluation set)
