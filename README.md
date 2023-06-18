@@ -4,53 +4,6 @@
 ## Folder
 
 ```bash
-├── Dataset
-│   ├── Leaderboard
-│   │   ├── acc4
-│   │   │   ├── image
-│   │   │   │   ├── brain_test1.h5
-│   │   │   │   ├── brain_test2.h5
-│   │   │   │   └── ...
-│   │   │   └── kspace
-│   │   │       ├── brain_test1.h5
-│   │   │       ├── brain_test2.h5
-│   │   │       └── ...
-│   │   └── acc8
-│   │       ├── image
-│   │       │   ├── brain_test1.h5
-│   │       │   ├── brain_test2.h5
-│   │       │   └── ...
-│   │       └── kspace
-│   │           ├── brain_test1.h5
-│   │           ├── brain_test2.h5
-│   │           └── ...
-│   ├── Training
-│   │   ├── image
-│   │   │   ├── brain_acc4_1.h5
-│   │   │   ├── brain_acc4_2.h5
-│   │   │   ├── ...
-│   │   │   ├── brain_acc8_1.h5
-│   │   │   ├── brain_acc8_2.h5
-│   │   │   └── ...
-│   │   └── kspace
-│   │       ├── brain_acc4_1.h5
-│   │       ├── brain_acc4_2.h5
-│   │       ├── ...
-│   │       ├── brain_acc8_1.h5
-│   │       ├── brain_acc8_2.h5
-│   │       └── ...
-│   └── Validation
-│       ├── image
-│       │   ├── ...
-│       │   ├── brain_acc4_181.h5
-│       │   ├── ...
-│       │   └── brain_acc8_181.h5
-│       └── kspace
-│           ├── ...
-│           ├── brain_acc4_181.h5
-│           ├── ...
-│           └── brain_acc8_181.h5
-│
 ├── .gitignore
 ├── evaluate.py
 ├── leaderboard_eval.py
@@ -60,18 +13,119 @@
 ├── train.ipynb
 ├── train.py
 └── utils
-    ├── common
-    │   ├── loss_function.py
-    │   └── utils.py
-    ├── data
-    │   ├── load_data.py
-    │   └── transforms.py
-    ├── learning
-    │   ├── test_part.py
-    │   └── train_part.py
-    └── model
-        └── unet.py
+│   ├── common
+│   │   ├── loss_function.py
+│   │   └── utils.py
+│   ├── data
+│   │   ├── load_data.py
+│   │   └── transforms.py
+│   ├── learning
+│   │   ├── test_part.py
+│   │   └── train_part.py
+│   └── model
+│       └── unet.py
+├── Data
+└── result
 ```
+
+```bash
+├── Data
+│   ├── Leaderboard
+│   │   ├── acc4
+│   │   │   ├── image
+│   │   │   │   ├── brain_test1.h5
+│   │   │   │   ├── brain_test2.h5
+│   │   │   │   └── brain_test3.h5
+│   │   │   └── kspace
+│   │   │       ├── brain_test1.h5
+│   │   │       ├── brain_test2.h5
+│   │   │       └── brain_test3.h5
+│   │   └── acc8
+│   │       ├── image
+│   │       │   ├── brain_test1.h5
+│   │       │   ├── brain_test2.h5
+│   │       │   └── brain_test3.h5
+│   │       └── kspace
+│   │           ├── brain_test1.h5
+│   │           ├── brain_test2.h5
+│   │           └── brain_test3.h5
+│   ├── train
+│   │   ├── image
+│   │   │   ├── brain_acc4_1.h5
+│   │   │   ├── brain_acc4_2.h5
+│   │   │   ├── brain_acc4_3.h5
+│   │   │   ├── brain_acc4_4.h5
+│   │   │   ├── brain_acc4_5.h5
+│   │   │   ├── brain_acc8_1.h5
+│   │   │   ├── brain_acc8_2.h5
+│   │   │   ├── brain_acc8_3.h5
+│   │   │   ├── brain_acc8_4.h5
+│   │   │   └── brain_acc8_5.h5
+│   │   └── kspace
+│   │       ├── brain_acc4_1.h5
+│   │       ├── brain_acc4_2.h5
+│   │       ├── brain_acc4_3.h5
+│   │       ├── brain_acc4_4.h5
+│   │       ├── brain_acc4_5.h5
+│   │       ├── brain_acc8_1.h5
+│   │       ├── brain_acc8_2.h5
+│   │       ├── brain_acc8_3.h5
+│   │       ├── brain_acc8_4.h5
+│   │       └── brain_acc8_5.h5
+│   └── val
+│       ├── image
+│       │   ├── brain_acc4_179.h5
+│       │   ├── brain_acc4_180.h5
+│       │   ├── brain_acc8_180.h5
+│       │   └── brain_acc8_181.h5
+│       └── kspace
+│           ├── brain_acc4_179.h5
+│           ├── brain_acc4_180.h5
+│           ├── brain_acc8_180.h5
+│           └── brain_acc8_181.h5
+```
+
+```bash
+└── result
+    ├── baby_unet
+    │   ├── checkpoints
+    │   │   ├── best_model.pt
+    │   │   └── model.pt
+    │   ├── reconstructions_forward
+    │   │   ├── acc4
+    │   │   │   ├── brain_test1.h5
+    │   │   │   ├── brain_test2.h5
+    │   │   │   └── brain_test3.h5
+    │   │   └── acc8
+    │   │       ├── brain_test1.h5
+    │   │       ├── brain_test2.h5
+    │   │       └── brain_test3.h5
+    │   └── reconstructions_val
+    │       ├── brain_acc4_179.h5
+    │       ├── brain_acc4_180.h5
+    │       ├── brain_acc8_180.h5
+    │       └── brain_acc8_181.h5
+    └── test_Unet
+        ├── checkpoints
+        │   ├── best_model.pt
+        │   └── model.pt
+        ├── reconstructions_forward
+        │   ├── acc4
+        │   │   ├── brain_test1.h5
+        │   │   ├── brain_test2.h5
+        │   │   └── brain_test3.h5
+        │   └── acc8
+        │       ├── brain_test1.h5
+        │       ├── brain_test2.h5
+        │       └── brain_test3.h5
+        └── reconstructions_val
+            ├── brain_acc4_179.h5
+            ├── brain_acc4_180.h5
+            ├── brain_acc8_180.h5
+            └── brain_acc8_181.h5
+```
+
+
 ## Requirements
 ```bash
 conda create -n baby_unet python=3.9
