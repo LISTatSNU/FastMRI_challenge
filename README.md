@@ -82,6 +82,7 @@ pip3 install torch
 pip3 install h5py
 pip3 install scikit-image
 pip3 install opencv-python
+pip3 install matplotlib
 ```
 
 ## Train
@@ -108,3 +109,7 @@ python3 leaderboard_eval.py -g 0 -lp ./Dataset/Leaderboard/ -yp ../result/baby_u
 ```
 
 ## Plot
+```bash
+python3 plot.py 
+```
+![image](https://github.com/LISTatSNU/FastMRI_challenge/assets/39179946/22dea43d-db54-42c4-9054-1b1ea461c648)
