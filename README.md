@@ -74,26 +74,42 @@
 ```
 ## Requirements
 ```bash
-conda create -n baby_unet
+conda create -n baby_unet python=3.9
 conda activate baby_unet
+
+pip3 install numpy
 pip3 install torch
-pip3 install scipy
+pip3 install h5py
+pip3 install scikit-image
+pip3 install opencv-python
+pip3 install matplotlib
 ```
 
 ## Train
 ```bash
-python3 train.py -g 0 -b 1 -e 10 -l 0.003 -r 1 -n baby_unet -t ./Dataset/Training/image/ -v ./Dataset/Validation/image/
+python3 train.py -g 0 -b 1 -e 10 -l 0.003 -r 1
 ```
 
-## Evaluate(Evaluation set)
+## Reconstruction
 ```bash
-python3 evaluate.py -g 0 -b 1 -n baby_unet -p ./Data/Leaderboard/image/ -m acc4
+python3 evaluate.py -g 0 -b 1 -m acc4
 ```
 
 ```bash
-python3 evaluate.py -g 0 -b 4 -n baby_unet -p ./Data/Leaderboard/image/ -m acc8
+python3 evaluate.py -g 0 -b 1 -m acc8
 ```
 
 ## Evaluate(LeaderBoard Dataset)
+```bash
+python3 leaderboard_eval.py -g 0 -m acc4
+```
+
+```bash
+python3 leaderboard_eval.py -g 0 -m acc8
+```
 
 ## Plot
+```bash
+python3 plot.py 
+```
+![image](https://github.com/LISTatSNU/FastMRI_challenge/assets/39179946/22dea43d-db54-42c4-9054-1b1ea461c648)
