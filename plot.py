@@ -1,7 +1,7 @@
 import h5py
 import matplotlib.pyplot as plt
 
-f = h5py.File('../result/test_Unet/reconstructions_val/brain95.h5', 'r')
+f = h5py.File('../result/baby_unet/reconstructions_val/brain_acc4_179.h5', 'r')
 input = f['input']
 recon = f['reconstruction']
 target = f['target']
