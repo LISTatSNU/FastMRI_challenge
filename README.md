@@ -81,6 +81,7 @@ pip3 install numpy
 pip3 install torch
 pip3 install h5py
 pip3 install scikit-image
+pip3 install opencv-python
 ```
 
 ## Train
@@ -90,13 +91,20 @@ python3 train.py -g 0 -b 1 -e 10 -l 0.003 -r 1 -n baby_unet -t ./Dataset/Trainin
 
 ## Evaluate(Evaluation set)
 ```bash
-python3 evaluate.py -g 0 -b 1 -n baby_unet -p ./Data/Leaderboard/image/ -m acc4
+python3 evaluate.py -g 0 -b 1 -n baby_unet -p ./Dataset/Leaderboard/ -m acc4
 ```
 
 ```bash
-python3 evaluate.py -g 0 -b 1 -n baby_unet -p ./Data/Leaderboard/image/ -m acc8
+python3 evaluate.py -g 0 -b 1 -n baby_unet -p ./Dataset/Leaderboard/ -m acc8
 ```
 
 ## Evaluate(LeaderBoard Dataset)
+```bash
+python3 leaderboard_eval.py -g 0 -lp ./Dataset/Leaderboard/ -yp ../result/baby_unet/reconstructions_forward/ -m acc4
+```
+
+```bash
+python3 leaderboard_eval.py -g 0 -lp ./Dataset/Leaderboard/ -yp ../result/baby_unet/reconstructions_forward/ -m acc8
+```
 
 ## Plot
