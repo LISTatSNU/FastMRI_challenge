@@ -87,25 +87,25 @@ pip3 install matplotlib
 
 ## Train
 ```bash
-python3 train.py -g 0 -b 1 -e 10 -l 0.003 -r 1 -n baby_unet -t ./Dataset/Training/image/ -v ./Dataset/Validation/image/
+python3 train.py -g 0 -b 1 -e 10 -l 0.003 -r 1
 ```
 
 ## Reconstruction
 ```bash
-python3 evaluate.py -g 0 -b 1 -n baby_unet -p ./Dataset/Leaderboard/ -m acc4
+python3 evaluate.py -g 0 -b 1 -m acc4
 ```
 
 ```bash
-python3 evaluate.py -g 0 -b 1 -n baby_unet -p ./Dataset/Leaderboard/ -m acc8
+python3 evaluate.py -g 0 -b 1 -m acc8
 ```
 
 ## Evaluate(LeaderBoard Dataset)
 ```bash
-python3 leaderboard_eval.py -g 0 -lp ./Dataset/Leaderboard/ -yp ../result/baby_unet/reconstructions_forward/ -m acc4
+python3 leaderboard_eval.py -g 0 -m acc4
 ```
 
 ```bash
-python3 leaderboard_eval.py -g 0 -lp ./Dataset/Leaderboard/ -yp ../result/baby_unet/reconstructions_forward/ -m acc8
+python3 leaderboard_eval.py -g 0 -m acc8
 ```
 
 ## Plot
