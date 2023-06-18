@@ -89,7 +89,7 @@ pip3 install opencv-python
 python3 train.py -g 0 -b 1 -e 10 -l 0.003 -r 1 -n baby_unet -t ./Dataset/Training/image/ -v ./Dataset/Validation/image/
 ```
 
-## Evaluate(Evaluation set)
+## Reconstruction
 ```bash
 python3 evaluate.py -g 0 -b 1 -n baby_unet -p ./Dataset/Leaderboard/ -m acc4
 ```
