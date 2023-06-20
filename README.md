@@ -7,10 +7,8 @@
 ├── .gitignore
 ├── evaluate.py
 ├── leaderboard_eval.py
-├── plot.ipynb
 ├── plot.py
 ├── README.md
-├── train.ipynb
 ├── train.py
 └── utils
 │   ├── common
