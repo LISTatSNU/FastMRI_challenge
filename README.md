@@ -1,4 +1,4 @@
-# 2023 baby unuet
+# 2023 baby unet
 2023 SNU FastMRI challenge
 
 ## Folder
