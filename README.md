@@ -126,7 +126,7 @@
 ```
 
 
-## Requirements
+## How to set?
 ```bash
 conda create -n baby_unet python=3.9
 conda activate baby_unet
@@ -139,30 +139,30 @@ pip3 install opencv-python
 pip3 install matplotlib
 ```
 
-## Train
+## How to train?
 ```bash
-python3 train.py -g 0 -b 1 -e 10 -l 0.003 -r 1
+python3 train.py
 ```
 
-## Reconstruction
+## How to reconstruct
 ```bash
-python3 evaluate.py -g 0 -b 1 -m acc4
-```
-
-```bash
-python3 evaluate.py -g 0 -b 1 -m acc8
-```
-
-## Evaluate(LeaderBoard Dataset)
-```bash
-python3 leaderboard_eval.py -g 0 -m acc4
+python3 evaluate.py -m acc4
 ```
 
 ```bash
-python3 leaderboard_eval.py -g 0 -m acc8
+python3 evaluate.py -m acc8
 ```
 
-## Plot
+## How to evaluate LeaderBoard Dataset
+```bash
+python3 leaderboard_eval.py -m acc4
+```
+
+```bash
+python3 leaderboard_eval.py -m acc8
+```
+
+## Let's plot!
 ```bash
 python3 plot.py 
 ```
