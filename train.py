@@ -10,7 +10,7 @@ from pathlib import Path
 
 
 def parse():
-    parser = argparse.ArgumentParser(description='Train Unet on FastMRI challenge Images',
+    parser = argparse.ArgumentParser(description='Train Varnet on FastMRI challenge Images',
                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-g', '--GPU-NUM', type=int, default=0, help='GPU number to allocate')
     parser.add_argument('-b', '--batch-size', type=int, default=1, help='Batch size')
