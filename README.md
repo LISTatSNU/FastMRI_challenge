@@ -173,7 +173,7 @@ python3 leaderboard_eval.py -m acc4
 python3 leaderboard_eval.py -m acc8
 ```
 
-## Plot
+## Plot (당장은 없음)
 ```bash
 python3 plot.py 
 ```
