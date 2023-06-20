@@ -85,24 +85,6 @@
 
 ```bash
 └── result
-    ├── baby_unet
-    │   ├── checkpoints
-    │   │   ├── best_model.pt
-    │   │   └── model.pt
-    │   ├── reconstructions_forward
-    │   │   ├── acc4
-    │   │   │   ├── brain_test1.h5
-    │   │   │   ├── brain_test2.h5
-    │   │   │   └── brain_test3.h5
-    │   │   └── acc8
-    │   │       ├── brain_test1.h5
-    │   │       ├── brain_test2.h5
-    │   │       └── brain_test3.h5
-    │   └── reconstructions_val
-    │       ├── brain_acc4_179.h5
-    │       ├── brain_acc4_180.h5
-    │       ├── brain_acc8_180.h5
-    │       └── brain_acc8_181.h5
     └── test_Unet
         ├── checkpoints
         │   ├── best_model.pt
