@@ -1,8 +1,16 @@
 # 2023 baby unet
 2023 SNU FastMRI challenge
 
-## Folder
+## 1. 폴더 계층 구조
 
+### 폴더의 전체 구조
+![image](https://github.com/LISTatSNU/FastMRI_challenge/assets/39179946/e5e344f1-5509-4344-9f16-f32158bcd7d3)
+
+### Data 폴더의 구조
+![image](https://github.com/LISTatSNU/FastMRI_challenge/assets/39179946/694fe77a-e9aa-4818-9695-06e2bccc9029)
+
+
+### examples
 ```bash
 ├── .gitignore
 ├── evaluate.py
