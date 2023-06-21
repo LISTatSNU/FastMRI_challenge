@@ -14,7 +14,7 @@
 * result 폴더는 학습한 모델의 weights을 기록하고 validation, leaderboard dataset의 reconstruction image를 저장하는데 활용되며 아래에 상세 구조를 첨부하겠습니다.
 
 ### Data 폴더의 구조
-![image](https://github.com/LISTatSNU/FastMRI_challenge/assets/39179946/366c0f08-48c2-4aff-9dba-8f0888ef6902)
+![image](https://github.com/LISTatSNU/FastMRI_challenge/assets/39179946/6e3b4ed1-b027-4b09-a0b1-3d10cb51b93a)
 * train, val:
     * train, val 폴더는 각각 모델을 학습(train), 검증(validation)하는데 사용하며 각각 image, kspace 폴더로 나뉩니다.
     * 참가자들은 generalization과 representation의 trade-off를 고려하여 train, validation의 set을 자유로이 나눌 수 있습니다.
@@ -30,93 +30,13 @@
    * {순번}은 1 ~ 58 사이의 숫자입니다. 
 
 ### result 폴더의 구조
-![image](https://github.com/LISTatSNU/FastMRI_challenge/assets/39179946/07923f18-7ea5-4756-ba21-ab9c4bd5d54a)
+![image](https://github.com/LISTatSNU/FastMRI_challenge/assets/39179946/1174e5bf-1551-4dcc-8b6a-77d3fd63fb12)
 * result 폴더는 모델의 이름에 따라서 여러 폴더로 나뉠 수 있습니다.
 * 위 그림에서는 default argument인 test_Unet만 고려했습니다. 
 * test_Unet 폴더는 아래 3개의 폴더로 구성되어 있습니다.
   * checkpoints - model.pt, best_model.pt의 정보가 있습니다. 모델의 weights 정보를 담고 있습니다.
-  * reconstructions_forward - Leaderboard dataset의 reconstruction을 저장합니다. brain_test_{순번}.h5 형식입니다.
-  * reconstructions_val - validation dataset의 reconstruction을 저장합니다. brain_{mask 형식}_{순번}.h5 형식입니다.
- 
-
-```bash
-├── Data
-│   ├── Leaderboard
-│   │   ├── acc4
-│   │   │   ├── image
-│   │   │   │   ├── brain_test1.h5
-│   │   │   │   ├── brain_test2.h5
-│   │   │   │   └── brain_test3.h5
-│   │   │   └── kspace
-│   │   │       ├── brain_test1.h5
-│   │   │       ├── brain_test2.h5
-│   │   │       └── brain_test3.h5
-│   │   └── acc8
-│   │       ├── image
-│   │       │   ├── brain_test1.h5
-│   │       │   ├── brain_test2.h5
-│   │       │   └── brain_test3.h5
-│   │       └── kspace
-│   │           ├── brain_test1.h5
-│   │           ├── brain_test2.h5
-│   │           └── brain_test3.h5
-│   ├── train
-│   │   ├── image
-│   │   │   ├── brain_acc4_1.h5
-│   │   │   ├── brain_acc4_2.h5
-│   │   │   ├── brain_acc4_3.h5
-│   │   │   ├── brain_acc4_4.h5
-│   │   │   ├── brain_acc4_5.h5
-│   │   │   ├── brain_acc8_1.h5
-│   │   │   ├── brain_acc8_2.h5
-│   │   │   ├── brain_acc8_3.h5
-│   │   │   ├── brain_acc8_4.h5
-│   │   │   └── brain_acc8_5.h5
-│   │   └── kspace
-│   │       ├── brain_acc4_1.h5
-│   │       ├── brain_acc4_2.h5
-│   │       ├── brain_acc4_3.h5
-│   │       ├── brain_acc4_4.h5
-│   │       ├── brain_acc4_5.h5
-│   │       ├── brain_acc8_1.h5
-│   │       ├── brain_acc8_2.h5
-│   │       ├── brain_acc8_3.h5
-│   │       ├── brain_acc8_4.h5
-│   │       └── brain_acc8_5.h5
-│   └── val
-│       ├── image
-│       │   ├── brain_acc4_179.h5
-│       │   ├── brain_acc4_180.h5
-│       │   ├── brain_acc8_180.h5
-│       │   └── brain_acc8_181.h5
-│       └── kspace
-│           ├── brain_acc4_179.h5
-│           ├── brain_acc4_180.h5
-│           ├── brain_acc8_180.h5
-│           └── brain_acc8_181.h5
-```
-
-```bash
-└── result
-    └── test_Unet
-        ├── checkpoints
-        │   ├── best_model.pt
-        │   └── model.pt
-        ├── reconstructions_forward
-        │   ├── acc4
-        │   │   ├── brain_test1.h5
-        │   │   ├── brain_test2.h5
-        │   │   └── brain_test3.h5
-        │   └── acc8
-        │       ├── brain_test1.h5
-        │       ├── brain_test2.h5
-        │       └── brain_test3.h5
-        └── reconstructions_val
-            ├── brain_acc4_179.h5
-            ├── brain_acc4_180.h5
-            ├── brain_acc8_180.h5
-            └── brain_acc8_181.h5
-```
+  * reconstructions_forward - Leaderboard dataset의 reconstruction을 저장합니다. brain_test_{순번}.h5 형식입니다. (```train.py``` 참고)
+  * reconstructions_val - validation dataset의 reconstruction을 저장합니다. brain_{mask 형식}_{순번}.h5 형식입니다. (```evaluation.py``` 참고)
 
 ## 2. 폴더 정보
 ```bash
