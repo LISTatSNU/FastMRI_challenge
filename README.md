@@ -86,7 +86,6 @@
 
 ## 4. How to set?
 ```bash
-TODO
 conda create -n baby_varnet python=3.9
 conda activate baby_varnet
 
