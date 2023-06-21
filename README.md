@@ -1,9 +1,6 @@
 # 2023 baby unet
 2023 SNU FastMRI challenge
 
-## 0. quick start
-//TODO 서버 접속하고 난 뒤 quick start 작성
-
 ## 1. 폴더 계층
 
 ### 폴더의 전체 구조
@@ -35,8 +32,8 @@
 * 위 그림에서는 default argument인 test_Unet만 고려했습니다. 
 * test_Unet 폴더는 아래 3개의 폴더로 구성되어 있습니다.
   * checkpoints - model.pt, best_model.pt의 정보가 있습니다. 모델의 weights 정보를 담고 있습니다.
-  * reconstructions_forward - Leaderboard dataset의 reconstruction을 저장합니다. brain_test_{순번}.h5 형식입니다. (```train.py``` 참고)
-  * reconstructions_val - validation dataset의 reconstruction을 저장합니다. brain_{mask 형식}_{순번}.h5 형식입니다. (```evaluation.py``` 참고)
+  * reconstructions_val - validation dataset의 reconstruction을 저장합니다. brain_{mask 형식}_{순번}.h5 형식입니다. (```train.py``` 참고)
+  * reconstructions_forward - Leaderboard dataset의 reconstruction을 저장합니다. brain_test_{순번}.h5 형식입니다. (```evaluation.py``` 참고)
 
 ## 2. 폴더 정보
 ```bash
@@ -62,7 +59,19 @@
 └── result
 ```
 
-## How to set?
+## 3. Before you start
+* ```train.py```, ```evaluation.py```, ```leaderboard_eval.py``` 순으로 코드를 실행하면 됩니다.
+* ```train.py```
+   * train/validation을 진행하고 학습한 model의 결과를 result 폴더에 저장합니다.
+   * 가장 성능이 좋은 모델의 weights을 ```best_model.pt```으로 저장합니다. 
+* ```evaluation.py```
+   * ```train.py```으로 학습한 ```best_model.pt```을 활용해 leader_board dataset을 reconstruction하고 그 결과를 result 폴더에 저장합니다.
+   * acc4와 acc8 옵션을 활용해 두개의 샘플링 마스크(4X, 8X)에 대해서 전부 reconstruction을 실행합니다.
+* ```leaderboard_eval.py```
+   * ```evaluation.py```을 활용해 생성한 reconstruction의 SSIM을 측정합니다.
+   * acc4와 acc8 옵션을 활용해 두개의 샘플링 마스크(4X, 8X)에 대해서 전부 측정을 합니다.
+
+## 4. How to set?
 ```bash
 conda create -n baby_unet python=3.9
 conda activate baby_unet
@@ -75,12 +84,12 @@ pip3 install opencv-python
 pip3 install matplotlib
 ```
 
-## How to train?
+## 5. How to train?
 ```bash
 python3 train.py
 ```
 
-## How to reconstruct
+## 6. How to reconstruct?
 ```bash
 python3 evaluate.py -m acc4
 ```
@@ -89,7 +98,7 @@ python3 evaluate.py -m acc4
 python3 evaluate.py -m acc8
 ```
 
-## How to evaluate LeaderBoard Dataset
+## 7. How to evaluate LeaderBoard Dataset?
 ```bash
 python3 leaderboard_eval.py -m acc4
 ```
@@ -98,7 +107,7 @@ python3 leaderboard_eval.py -m acc4
 python3 leaderboard_eval.py -m acc8
 ```
 
-## Let's plot!
+## 8. Plot!
 ```bash
 python3 plot.py 
 ```
