@@ -18,7 +18,7 @@
     * image와 kspace 폴더에 들어있는 파일의 형식은 다음과 같습니다: brain_{mask 형식}_{순번}.h5
     * ex) brain_acc8_3.h5  
     * {mask 형식}은 "acc4"과 "acc8" 중 하나입니다.
-    * {순번}은 1 ~ 181 사이의 숫자입니다. 
+    * "acc4"의 경우 {순번}은 1 ~ 203, "acc8"의 경우 {순번}은 1 ~ 204 사이의 숫자입니다. 
 * Leaderboard:
    * **Leaderboard는 성능 평가를 위해 활용하는 dataset이므로 절대로 학습 과정에 활용하면 안됩니다.**
    * Leaderboard 폴더는 mask 형식에 따라서 acc4과 acc8 폴더로 나뉩니다.
