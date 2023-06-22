@@ -147,13 +147,19 @@ def train(args):
     
     train_loader = create_data_loaders(data_path = args.data_path_train, args = args, shuffle=True)
     val_loader = create_data_loaders(data_path = args.data_path_val, args = args)
-
+    
+    val_loss_log = np.empty((0, 2))
     for epoch in range(start_epoch, args.num_epochs):
         print(f'Epoch #{epoch:2d} ............... {args.net_name} ...............')
         
         train_loss, train_time = train_epoch(args, epoch, model, train_loader, optimizer, loss_type)
         val_loss, num_subjects, reconstructions, targets, inputs, val_time = validate(args, model, val_loader)
         
+        val_loss_log = np.append(val_loss_log, np.array([[epoch, val_loss]]), axis=0)
+        file_path = os.path.join(args.val_loss_dir, "val_loss_log")
+        np.save(file_path, val_loss_log)
+        print(f"loss file saved! {file_path}")
+
         train_loss = torch.tensor(train_loss).cuda(non_blocking=True)
         val_loss = torch.tensor(val_loss).cuda(non_blocking=True)
         num_subjects = torch.tensor(num_subjects).cuda(non_blocking=True)
