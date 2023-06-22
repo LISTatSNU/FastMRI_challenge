@@ -25,13 +25,14 @@
    * {순번}은 1 ~ 58 사이의 숫자입니다. 
 
 ### result 폴더의 구조
-![image](https://github.com/LISTatSNU/FastMRI_challenge/assets/39179946/b203e0f8-0236-4383-856e-022401532d82)
+![image](https://github.com/LISTatSNU/FastMRI_challenge/assets/39179946/0e0746d8-fcfc-4c7b-8a3f-c07d06362791)
+
 * result 폴더는 모델의 이름에 따라서 여러 폴더로 나뉠 수 있습니다.
 * 위 그림에서는 default argument인 test_varnet만 고려했습니다. 
 * test_Unet 폴더는 아래 3개의 폴더로 구성되어 있습니다.
   * checkpoints - model.pt, best_model.pt의 정보가 있습니다. 모델의 weights 정보를 담고 있습니다.
   * reconstructions_val - validation dataset의 reconstruction을 저장합니다. brain_{mask 형식}_{순번}.h5 형식입니다. (```train.py``` 참고)
-  * reconstructions_forward - leaderboard dataset의 reconstruction을 저장합니다. brain_test_{순번}.h5 형식입니다. (```evaluation.py``` 참고)
+  * reconstructions_leaderboard - leaderboard dataset의 reconstruction을 저장합니다. brain_test_{순번}.h5 형식입니다. (```evaluation.py``` 참고)
 
 
 ## 2. 폴더 정보
@@ -75,54 +76,57 @@
 * ```train.py```
    * train/validation을 진행하고 학습한 model의 결과를 result 폴더에 저장합니다.
    * 가장 성능이 좋은 모델의 weights을 ```best_model.pt```으로 저장합니다. 
-* ```evaluation.py```
+* ```reconstruct.py```
    * ```train.py```으로 학습한 ```best_model.pt```을 활용해 leader_board dataset을 reconstruction하고 그 결과를 result 폴더에 저장합니다.
    * acc4와 acc8 옵션을 활용해 두개의 샘플링 마스크(4X, 8X)에 대해서 전부 reconstruction을 실행합니다.
 * ```leaderboard_eval.py```
-   * ```evaluation.py```을 활용해 생성한 reconstruction의 SSIM을 측정합니다.
+   * ```reconstruct.py```을 활용해 생성한 reconstruction의 SSIM을 측정합니다.
    * acc4와 acc8 옵션을 활용해 두개의 샘플링 마스크(4X, 8X)에 대해서 전부 측정을 합니다.
 
 
 ## 4. How to set?
+Python 3.8.10
+
 ```bash
-pip3 install torch
-pip3 install numpy
-pip3 install requests
-pip3 install tqdm
-pip3 install h5py
+pip install torch
+pip install numpy
+pip install requests
+pip install tqdm
+pip install h5py
 pip install scikit-image
 pip install pyyaml
-pip3 install opencv-python
+pip install opencv-python
+pip install matplotlib
 ```
 
 ## 5. How to train?
 ```bash
-python3 train.py
+python train.py
 ```
+- validation할 때, reconstruction data를 ```result/reconstructions_val/```에 저장합니다.
+- epoch 별로 validation dataset에 대한 loss 기록합니다.
 
 ## 6. How to reconstruct?
 ```bash
-python3 reconstruct.py -m acc4
+python reconstruct.py -m acc4
 ```
-
 ```bash
-python3 reconstruct.py -m acc8
+python reconstruct.py -m acc8
 ```
+- leaderboard 평가를 위한 reconstruction data를 ```result/reconstructions_leaderboard```에 저장합니다.
+- 4X sampling mask, 8X sampling mask에 대해 각각에 대해 진행해줍니다.
 
 ## 7. How to evaluate LeaderBoard Dataset?
 ```bash
-python3 leaderboard_eval.py -m acc4
+python leaderboard_eval.py -m acc4
 ```
-
 ```bash
-python3 leaderboard_eval.py -m acc8
+python leaderboard_eval.py -m acc8
 ```
+- leaderboard 순위 경쟁을 위한 4X sampling mask, 8X sampling mask에 대한 SSIM 값을 따로 구합니다. 
 
 ## 8. What to submit!
 - github repository(코드 실행 방법 readme에 상세 기록)
 - loss 그래프 혹은 기록
 - 모델 weight file
 - 모델 설명 ppt
-
-
-
