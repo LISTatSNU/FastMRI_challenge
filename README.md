@@ -116,5 +116,13 @@ python3 leaderboard_eval.py -m acc4
 
 ```bash
 python3 leaderboard_eval.py -m acc8
+```
+
+## 8. What to submit!
+- github repository(코드 실행 방법 readme에 상세 기록)
+- loss 그래프 혹은 기록
+- 모델 weight file
+- 모델 설명 ppt
+
 
 
