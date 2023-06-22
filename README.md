@@ -84,15 +84,18 @@
 
 
 ## 4. How to set?
+Python 3.8.10
+
 ```bash
-pip3 install torch
-pip3 install numpy
-pip3 install requests
-pip3 install tqdm
-pip3 install h5py
+pip install torch
+pip install numpy
+pip install requests
+pip install tqdm
+pip install h5py
 pip install scikit-image
 pip install pyyaml
-pip3 install opencv-python
+pip install opencv-python
+pip install matplotlib
 ```
 
 ## 5. How to train?
