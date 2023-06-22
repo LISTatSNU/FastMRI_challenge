@@ -36,6 +36,8 @@
   * reconstructions_forward - leaderboard dataset의 reconstruction을 저장합니다. brain_test_{순번}.h5 형식입니다. (```evaluation.py``` 참고)
 
 ## 2. 폴더 정보
+Python 3.8.10
+
 ```bash
 ├── .gitignore
 ├── evaluate.py
