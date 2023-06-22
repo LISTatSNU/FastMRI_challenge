@@ -2,11 +2,16 @@ import torch
 import argparse
 import shutil
 import os, sys
+from pathlib import Path
+
 if os.getcwd() + '/utils/model/' not in sys.path:
     sys.path.insert(1, os.getcwd() + '/utils/model/')
-
 from utils.learning.train_part import train
-from pathlib import Path
+
+if os.getcwd() + '/utils/common/' not in sys.path:
+    sys.path.insert(1, os.getcwd() + '/utils/common/')
+from utils.common.utils import seed_fix
+
 
 
 def parse():
@@ -27,12 +32,18 @@ def parse():
     parser.add_argument('--input-key', type=str, default='kspace', help='Name of input key')
     parser.add_argument('--target-key', type=str, default='image_label', help='Name of target key')
     parser.add_argument('--max-key', type=str, default='max', help='Name of max key in attributes')
+    parser.add_argument('--seed', type=int, default=430, help='Fix random seed')
 
     args = parser.parse_args()
     return args
 
 if __name__ == '__main__':
     args = parse()
+    
+    # fix seed
+    if args.seed is not None:
+        seed_fix(args.seed)
+
     args.exp_dir = '../result' / args.net_name / 'checkpoints'
     args.val_dir = '../result' / args.net_name / 'reconstructions_val'
     args.main_dir = '../result' / args.net_name / __file__
