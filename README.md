@@ -27,13 +27,13 @@
    * {순번}은 1 ~ 58 사이의 숫자입니다. 
 
 ### result 폴더의 구조
-![image](https://github.com/LISTatSNU/FastMRI_challenge/assets/39179946/ff38d4f5-6359-415f-84c3-5ef482134d9c)
+![image](https://github.com/LISTatSNU/FastMRI_challenge/assets/39179946/80a1e3e7-43c6-4bef-a345-489a31035b67)
 * result 폴더는 모델의 이름에 따라서 여러 폴더로 나뉠 수 있습니다.
 * 위 그림에서는 default argument인 test_Unet만 고려했습니다. 
 * test_Unet 폴더는 아래 3개의 폴더로 구성되어 있습니다.
   * checkpoints - model.pt, best_model.pt의 정보가 있습니다. 모델의 weights 정보를 담고 있습니다.
   * reconstructions_val - validation dataset의 reconstruction을 저장합니다. brain_{mask 형식}_{순번}.h5 형식입니다. (```train.py``` 참고)
-  * reconstructions_forward - leaderboard dataset의 reconstruction을 저장합니다. brain_test_{순번}.h5 형식입니다. (```evaluation.py``` 참고)
+  * reconstructions_leaderboard - leaderboard dataset의 reconstruction을 저장합니다. brain_test_{순번}.h5 형식입니다. (```evaluation.py``` 참고)
 
 ## 2. 폴더 정보
 Python 3.8.10
@@ -85,26 +85,29 @@ pip3 install matplotlib
 
 ## 5. How to train?
 ```bash
-python3 train.py
+python train.py
 ```
+- validation할 때, reconstruction data를 ```result/reconstructions_val/```에 저장합니다.
+- epoch 별로 validation dataset에 대한 loss 기록합니다.
 
 ## 6. How to reconstruct?
 ```bash
-python3 reconstruct.py -m acc4
+python reconstruct.py -m acc4
 ```
-
 ```bash
-python3 reconstruct.py -m acc8
+python reconstruct.py -m acc8
 ```
+- leaderboard 평가를 위한 reconstruction data를 ```result/reconstructions_leaderboard```에 저장합니다.
+- 4X sampling mask, 8X sampling mask에 대해 각각에 대해 진행해줍니다.
 
 ## 7. How to evaluate LeaderBoard Dataset?
 ```bash
-python3 leaderboard_eval.py -m acc4
+python leaderboard_eval.py -m acc4
 ```
-
 ```bash
-python3 leaderboard_eval.py -m acc8
+python leaderboard_eval.py -m acc8
 ```
+- leaderboard 순위 경쟁을 위한 4X sampling mask, 8X sampling mask에 대한 SSIM 값을 따로 구합니다.
 
 ## 8. Plot!
 ```bash
