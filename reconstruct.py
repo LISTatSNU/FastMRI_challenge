@@ -29,6 +29,6 @@ if __name__ == '__main__':
     args = parse()
     args.data_path = args.data_path / args.mask
     args.exp_dir = '../result' / args.net_name / 'checkpoints'
-    args.forward_dir = '../result' / args.net_name / 'reconstructions_forward' / args.mask
+    args.forward_dir = '../result' / args.net_name / 'reconstructions_leaderboard' / args.mask
     print(args.forward_dir)
     forward(args)

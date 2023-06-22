@@ -107,7 +107,7 @@ if __name__ == '__main__':
     """
     Modify Path Below To Test Your Results
     """
-    parser.add_argument('-yp', '--your_data_path', type=Path, default='../result/test_varnet/reconstructions_forward/')
+    parser.add_argument('-yp', '--your_data_path', type=Path, default='../result/test_varnet/reconstructions_leaderboard/')
     parser.add_argument('-m', '--mask', type=str, default='acc4', choices=['acc4', 'acc8'], help='type of mask | acc4 or acc8')
     parser.add_argument('-key', '--output_key', type=str, default='reconstruction')
     
