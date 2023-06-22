@@ -102,11 +102,11 @@ python3 train.py
 
 ## 6. How to reconstruct?
 ```bash
-python3 evaluate.py -m acc4
+python3 reconstruct.py -m acc4
 ```
 
 ```bash
-python3 evaluate.py -m acc8
+python3 reconstruct.py -m acc8
 ```
 
 ## 7. How to evaluate LeaderBoard Dataset?
