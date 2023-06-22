@@ -103,7 +103,7 @@ if __name__ == '__main__':
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     
     parser.add_argument('-g', '--GPU_NUM', type=int, default=0)
-    parser.add_argument('-lp', '--leaderboard_data_path', type=Path, default='../Data/Leaderboard/')
+    parser.add_argument('-lp', '--leaderboard_data_path', type=Path, default='/input/leaderboard/')
     
     """
     Modify Path Below To Test Your Results
