@@ -25,7 +25,7 @@
    * {순번}은 1 ~ 58 사이의 숫자입니다. 
 
 ### result 폴더의 구조
-![image](https://github.com/LISTatSNU/FastMRI_challenge/assets/39179946/ff38d4f5-6359-415f-84c3-5ef482134d9c)
+![image](https://github.com/LISTatSNU/FastMRI_challenge/assets/39179946/b203e0f8-0236-4383-856e-022401532d82)
 * result 폴더는 모델의 이름에 따라서 여러 폴더로 나뉠 수 있습니다.
 * 위 그림에서는 default argument인 test_Unet만 고려했습니다. 
 * test_Unet 폴더는 아래 3개의 폴더로 구성되어 있습니다.
