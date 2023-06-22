@@ -27,11 +27,11 @@
 ### result 폴더의 구조
 ![image](https://github.com/LISTatSNU/FastMRI_challenge/assets/39179946/b203e0f8-0236-4383-856e-022401532d82)
 * result 폴더는 모델의 이름에 따라서 여러 폴더로 나뉠 수 있습니다.
-* 위 그림에서는 default argument인 test_Unet만 고려했습니다. 
+* 위 그림에서는 default argument인 test_varnet만 고려했습니다. 
 * test_Unet 폴더는 아래 3개의 폴더로 구성되어 있습니다.
   * checkpoints - model.pt, best_model.pt의 정보가 있습니다. 모델의 weights 정보를 담고 있습니다.
   * reconstructions_val - validation dataset의 reconstruction을 저장합니다. brain_{mask 형식}_{순번}.h5 형식입니다. (```train.py``` 참고)
-  * reconstructions_forward - Leaderboard dataset의 reconstruction을 저장합니다. brain_test_{순번}.h5 형식입니다. (```evaluation.py``` 참고)
+  * reconstructions_forward - leaderboard dataset의 reconstruction을 저장합니다. brain_test_{순번}.h5 형식입니다. (```evaluation.py``` 참고)
 
 
 ## 2. 폴더 정보
