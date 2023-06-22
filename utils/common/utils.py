@@ -8,6 +8,8 @@ from skimage.metrics import structural_similarity
 from math import sqrt
 import h5py
 import numpy as np
+import torch
+import random
 
 def save_reconstructions(reconstructions, out_dir, targets=None, inputs=None):
     """
@@ -71,3 +73,11 @@ def ifftc(data, axes=(-2, -1), norm="ortho"):
 def rss_combine(data, axis, keepdims=False):
     return np.sqrt(np.sum(np.square(np.abs(data)), axis, keepdims=keepdims))
 
+def seed_fix(n):
+    torch.manual_seed(n)
+    torch.cuda.manual_seed(n)
+    torch.cuda.manual_seed_all(n)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+    np.random.seed(n)
+    random.seed(n)
