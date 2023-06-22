@@ -76,11 +76,11 @@
 * ```train.py```
    * train/validation을 진행하고 학습한 model의 결과를 result 폴더에 저장합니다.
    * 가장 성능이 좋은 모델의 weights을 ```best_model.pt```으로 저장합니다. 
-* ```evaluation.py```
+* ```reconstruct.py```
    * ```train.py```으로 학습한 ```best_model.pt```을 활용해 leader_board dataset을 reconstruction하고 그 결과를 result 폴더에 저장합니다.
    * acc4와 acc8 옵션을 활용해 두개의 샘플링 마스크(4X, 8X)에 대해서 전부 reconstruction을 실행합니다.
 * ```leaderboard_eval.py```
-   * ```evaluation.py```을 활용해 생성한 reconstruction의 SSIM을 측정합니다.
+   * ```reconstruct.py```을 활용해 생성한 reconstruction의 SSIM을 측정합니다.
    * acc4와 acc8 옵션을 활용해 두개의 샘플링 마스크(4X, 8X)에 대해서 전부 측정을 합니다.
 
 
