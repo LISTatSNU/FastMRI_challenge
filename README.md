@@ -73,9 +73,6 @@
 
 ## 4. How to set?
 ```bash
-conda create -n baby_unet python=3.9
-conda activate baby_unet
-
 pip3 install numpy
 pip3 install torch
 pip3 install h5py
@@ -112,3 +109,9 @@ python3 leaderboard_eval.py -m acc8
 python3 plot.py 
 ```
 ![image](https://github.com/LISTatSNU/FastMRI_challenge/assets/39179946/22dea43d-db54-42c4-9054-1b1ea461c648)
+
+## 9. What to submit!
+- github repository(코드 실행 방법 readme에 상세 기록)
+- loss 그래프 혹은 기록
+- 모델 weight file
+- 모델 설명 ppt
