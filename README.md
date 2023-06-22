@@ -1,15 +1,7 @@
 # 2023 baby unet
 2023 SNU FastMRI challenge
 
-<<<<<<< HEAD
-## Branch
-- <a href = https://github.com/LISTatSNU/FastMRI_challenge/tree/2021_baby_unet>2021_baby_unet</a> [3]
-- <a href = https://github.com/LISTatSNU/FastMRI_challenge/tree/2022_baby_unet>2022_baby_unet</a> [3]
-- <a href = https://github.com/LISTatSNU/FastMRI_challenge/tree/2022_varnet>2022_varnet</a> [2]
-- <a href = https://github.com/LISTatSNU/FastMRI_challenge/tree/2023_baby_unet>2023_baby_unet</a> [3]
-=======
 ## 1. 폴더 계층
->>>>>>> 3bac55b25a6264a3736c56de3687a40bd54ae8cd
 
 ### 폴더의 전체 구조
 ![image](https://github.com/LISTatSNU/FastMRI_challenge/assets/39179946/f8037437-ea44-458a-8aee-2ca6bd1a16dd)
@@ -41,7 +33,7 @@
 * test_Unet 폴더는 아래 3개의 폴더로 구성되어 있습니다.
   * checkpoints - model.pt, best_model.pt의 정보가 있습니다. 모델의 weights 정보를 담고 있습니다.
   * reconstructions_val - validation dataset의 reconstruction을 저장합니다. brain_{mask 형식}_{순번}.h5 형식입니다. (```train.py``` 참고)
-  * reconstructions_forward - Leaderboard dataset의 reconstruction을 저장합니다. brain_test_{순번}.h5 형식입니다. (```evaluation.py``` 참고)
+  * reconstructions_forward - leaderboard dataset의 reconstruction을 저장합니다. brain_test_{순번}.h5 형식입니다. (```evaluation.py``` 참고)
 
 ## 2. 폴더 정보
 ```bash
@@ -81,9 +73,6 @@
 
 ## 4. How to set?
 ```bash
-conda create -n baby_unet python=3.9
-conda activate baby_unet
-
 pip3 install numpy
 pip3 install torch
 pip3 install h5py
@@ -99,11 +88,11 @@ python3 train.py
 
 ## 6. How to reconstruct?
 ```bash
-python3 evaluate.py -m acc4
+python3 reconstruct.py -m acc4
 ```
 
 ```bash
-python3 evaluate.py -m acc8
+python3 reconstruct.py -m acc8
 ```
 
 ## 7. How to evaluate LeaderBoard Dataset?
@@ -120,3 +109,9 @@ python3 leaderboard_eval.py -m acc8
 python3 plot.py 
 ```
 ![image](https://github.com/LISTatSNU/FastMRI_challenge/assets/39179946/22dea43d-db54-42c4-9054-1b1ea461c648)
+
+## 9. What to submit!
+- github repository(코드 실행 방법 readme에 상세 기록)
+- loss 그래프 혹은 기록
+- 모델 weight file
+- 모델 설명 ppt
