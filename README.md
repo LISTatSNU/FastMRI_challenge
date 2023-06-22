@@ -36,6 +36,8 @@
   * reconstructions_forward - leaderboard dataset의 reconstruction을 저장합니다. brain_test_{순번}.h5 형식입니다. (```evaluation.py``` 참고)
 
 ## 2. 폴더 정보
+Python 3.8.10
+
 ```bash
 ├── .gitignore
 ├── evaluate.py
@@ -108,7 +110,7 @@ python3 leaderboard_eval.py -m acc8
 ```bash
 python3 plot.py 
 ```
-![image](https://github.com/LISTatSNU/FastMRI_challenge/assets/39179946/22dea43d-db54-42c4-9054-1b1ea461c648)
+<img width="598" alt="스크린샷 2023-06-22 오후 6 53 56" src="https://github.com/LISTatSNU/FastMRI_challenge/assets/39179946/a3cabb78-3c83-4d99-98a4-73b81ac61f38">
 
 ## 9. What to submit!
 - github repository(코드 실행 방법 readme에 상세 기록)
