@@ -85,9 +85,6 @@
 
 ## 4. How to set?
 ```bash
-conda create -n baby_varnet python=3.9
-conda activate baby_varnet
-
 pip3 install torch
 pip3 install numpy
 pip3 install requests
