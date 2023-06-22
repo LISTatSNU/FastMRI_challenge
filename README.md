@@ -1,16 +1,6 @@
 # 2023 baby varnet
 2023 SNU FastMRI challenge
 
-<<<<<<< HEAD
-## Branch
-- <a href = https://github.com/LISTatSNU/FastMRI_challenge/tree/2021_baby_unet>2021_baby_unet</a> [3]
-- <a href = https://github.com/LISTatSNU/FastMRI_challenge/tree/2022_baby_unet>2022_baby_unet</a> [3]
-- <a href = https://github.com/LISTatSNU/FastMRI_challenge/tree/2022_varnet>2022_varnet</a> [2]
-- <a href = https://github.com/LISTatSNU/FastMRI_challenge/tree/2023_baby_unet>2023_baby_unet</a> [3]
-=======
-## 1. 폴더 계층
->>>>>>> eb25ae479df97d14feaf373afb09e92b2df4fa87
-
 ### 폴더의 전체 구조
 ![image](https://github.com/LISTatSNU/FastMRI_challenge/assets/39179946/b551e277-4134-41bb-9d1a-8275a65c1eb7)
 * FastMRI_challenge, Data, result 폴더가 위의 구조대로 설정되어 있어야 default argument를 활용할 수 있습니다.
