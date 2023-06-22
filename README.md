@@ -11,7 +11,7 @@
 * result 폴더는 학습한 모델의 weights을 기록하고 validation, leaderboard dataset의 reconstruction image를 저장하는데 활용되며 아래에 상세 구조를 첨부하겠습니다.
 
 ### Data 폴더의 구조
-![image](https://github.com/LISTatSNU/FastMRI_challenge/assets/39179946/56c7d9b5-6401-4817-8dc3-f49fb7cdb453)
+![image](https://github.com/LISTatSNU/FastMRI_challenge/assets/39179946/4d8e7b24-f48b-46da-9105-8cd01b3fc4a4)
 * train, val:
     * train, val 폴더는 각각 모델을 학습(train), 검증(validation)하는데 사용하며 각각 image, kspace 폴더로 나뉩니다.
     * 참가자들은 generalization과 representation의 trade-off를 고려하여 train, validation의 set을 자유로이 나눌 수 있습니다.
@@ -27,7 +27,7 @@
    * {순번}은 1 ~ 58 사이의 숫자입니다. 
 
 ### result 폴더의 구조
-![image](https://github.com/LISTatSNU/FastMRI_challenge/assets/39179946/1174e5bf-1551-4dcc-8b6a-77d3fd63fb12)
+![image](https://github.com/LISTatSNU/FastMRI_challenge/assets/39179946/ff38d4f5-6359-415f-84c3-5ef482134d9c)
 * result 폴더는 모델의 이름에 따라서 여러 폴더로 나뉠 수 있습니다.
 * 위 그림에서는 default argument인 test_Unet만 고려했습니다. 
 * test_Unet 폴더는 아래 3개의 폴더로 구성되어 있습니다.
