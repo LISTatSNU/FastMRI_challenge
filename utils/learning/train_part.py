@@ -14,6 +14,7 @@ from utils.common.utils import save_reconstructions, ssim_loss
 from utils.common.loss_function import SSIMLoss
 from utils.model.varnet import VarNet
 
+import os
 
 def train_epoch(args, epoch, model, data_loader, optimizer, loss_type):
     model.train()
