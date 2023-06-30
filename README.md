@@ -1,5 +1,5 @@
 # FastMRI_challenge
-2022 SNU FastMRI challenge
+2023 SNU FastMRI challenge
 
 ## Branch
 - <a href = https://github.com/LISTatSNU/FastMRI_challenge/tree/2021_baby_unet>2021_baby_unet</a> [3]
