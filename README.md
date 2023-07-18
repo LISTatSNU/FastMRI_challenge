@@ -94,22 +94,15 @@ python train.py
 
 ## 6. How to reconstruct?
 ```bash
-python reconstruct.py -m acc4
-```
-```bash
-python reconstruct.py -m acc8
+python reconstruct.py
 ```
 - leaderboard 평가를 위한 reconstruction data를 ```result/reconstructions_leaderboard```에 저장합니다.
-- 4X sampling mask, 8X sampling mask에 대해 각각에 대해 진행해줍니다.
 
 ## 7. How to evaluate LeaderBoard Dataset?
 ```bash
-python leaderboard_eval.py -m acc4
+python leaderboard_eval.py
 ```
-```bash
-python leaderboard_eval.py -m acc8
-```
-- leaderboard 순위 경쟁을 위한 4X sampling mask, 8X sampling mask에 대한 SSIM 값을 따로 구합니다.
+- leaderboard 순위 경쟁을 위한 SSIM 값을 한번에 구합니다.
 
 ## 8. Plot!
 ```bash
