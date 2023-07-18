@@ -88,8 +88,8 @@ def forward(args):
                 #ssim_total += ssim_calculator(recon, target, maximum).cpu().numpy()
                 ssim_total += ssim_calculator(recon*mask, target*mask, maximum).cpu().numpy()
                 idx += 1
-            
-    print("Leaderboard Dataset SSIM : {:.4f}".format(ssim_total/idx))
+    
+    return ssim_total/idx
 
 
 if __name__ == '__main__':
@@ -103,18 +103,24 @@ if __name__ == '__main__':
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     
     parser.add_argument('-g', '--GPU_NUM', type=int, default=0)
-    parser.add_argument('-lp', '--leaderboard_data_path', type=Path, default='/Data/leaderboard/')
+    parser.add_argument('-lp', '--path_leaderboard_data', type=Path, default='/Data/leaderboard/')
     
     """
     Modify Path Below To Test Your Results
     """
-    parser.add_argument('-yp', '--your_data_path', type=Path, default='../result/test_Unet/reconstructions_leaderboard/')
-    parser.add_argument('-m', '--mask', type=str, default='acc4', choices=['acc4', 'acc8'], help='type of mask | acc4 or acc8')
+    parser.add_argument('-yp', '--path_your_data', type=Path, default='../result/test_Unet/reconstructions_leaderboard/')
     parser.add_argument('-key', '--output_key', type=str, default='reconstruction')
     
     args = parser.parse_args()
     
-    args.leaderboard_data_path = args.leaderboard_data_path / args.mask / "image"
-    args.your_data_path = args.your_data_path / args.mask
-    forward(args)
-
+    #acc4
+    args.leaderboard_data_path = args.path_leaderboard_data / "acc4" / "image"
+    args.your_data_path = args.path_your_data / "acc4"
+    SSIM_acc4 = forward(args)
+    
+    #acc8
+    args.leaderboard_data_path = args.path_leaderboard_data / "acc8" / "image"
+    args.your_data_path = args.path_your_data / "acc8"
+    SSIM_acc8 = forward(args)
+    
+    print("Leaderboard Dataset SSIM : {:.4f}".format((SSIM_acc4 + SSIM_acc8) / 2))
