@@ -7,8 +7,8 @@
 - <a href = https://github.com/LISTatSNU/FastMRI_challenge/tree/2022_varnet>2022_varnet</a> [2]
 - <a href = https://github.com/LISTatSNU/FastMRI_challenge/tree/2023_baby_unet>2023_baby_unet</a> [3]
 - <a href = https://github.com/LISTatSNU/FastMRI_challenge/tree/2023_baby_varnet>2023_baby_varnet</a> [2]
-- <a href = https://github.com/LISTatSNU/FastMRI_challenge/tree/2024_baby_unet>2024_baby_unet (TBA)</a> [3]
-- <a href = https://github.com/LISTatSNU/FastMRI_challenge/tree/2024_baby_varnet>2024_baby_varnet (TBA)</a> [2]
+- <a href = https://github.com/LISTatSNU/FastMRI_challenge/tree/2024_baby_unet>2024_baby_unet</a> [3]
+- <a href = https://github.com/LISTatSNU/FastMRI_challenge/tree/2024_baby_varnet>2024_baby_varnet</a> [2]
 
 ## Reference
 [1] Zbontar, J.*, Knoll, F.*, Sriram, A.*, Murrell, T., Huang, Z., Muckley, M. J., ... & Lui, Y. W. (2018). fastMRI: An Open Dataset and Benchmarks for Accelerated MRI. arXiv preprint arXiv:1811.08839.
