@@ -31,7 +31,7 @@
 * test_Unet (혹은 test_VN) 폴더는 아래 3개의 폴더로 구성되어 있습니다.
   * checkpoints - `model.pt`, `best_model.pt`의 정보가 있습니다. 모델의 weights 정보를 담고 있습니다.
   * reconstructions_val - validation dataset의 reconstruction을 저장합니다. brain_{mask 형식}_{순번}.h5 형식입니다. (```train.py``` 참고)
-  * reconstructions_leaderboard - leaderboard dataset의 reconstruction을 저장합니다. brain_test_{순번}.h5 형식입니다. (```evaluation.py``` 참고)
+  * reconstructions_leaderboard - leaderboard dataset의 reconstruction을 저장합니다. brain_test_{순번}.h5 형식입니다. (```reconstruct.py``` 참고)
   * val_loss_log.npy - epoch별로 validation loss를 기록합니다. (```train.py``` 참고)
 
 ## 2. 폴더 정보
