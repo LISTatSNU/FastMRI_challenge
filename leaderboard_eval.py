@@ -9,7 +9,6 @@ from utils.common.loss_function import SSIMLoss
 import torch.nn.functional as F
 import cv2 
 from pathlib import Path
-import time
 
 class SSIM(SSIMLoss):
     def __init__(self, win_size: int = 7, k1: float = 0.01, k2: float = 0.03):
@@ -124,8 +123,6 @@ if __name__ == '__main__':
       else:
         private_acc = acc
     
-    start_time = time.time()
-    
     # public acceleration
     args.leaderboard_data_path = args.path_leaderboard_data / public_acc / 'image'
     args.your_data_path = args.path_your_data / 'public'
@@ -135,16 +132,8 @@ if __name__ == '__main__':
     args.leaderboard_data_path = args.path_leaderboard_data / private_acc / 'image'
     args.your_data_path = args.path_your_data / 'private'
     SSIM_private = forward(args)
-    
-    inference_time = time.time() - start_time
-    
-    print("Inference Time : {:.2f}s".format(inference_time))
-    
-    if inference_time >= 1000:
-        print("Inference Time is Over!")
-    
-    else:
-        print("Leaderboard SSIM : {:.4f}".format((SSIM_public + SSIM_private) / 2))
-        print("="*10 + " Details " + "="*10)
-        print("Leaderboard SSIM (public): {:.4f}".format(SSIM_public))
-        print("Leaderboard SSIM (private): {:.4f}".format(SSIM_private))
+   
+    print("Leaderboard SSIM : {:.4f}".format((SSIM_public + SSIM_private) / 2))
+    print("="*10 + " Details " + "="*10)
+    print("Leaderboard SSIM (public): {:.4f}".format(SSIM_public))
+    print("Leaderboard SSIM (private): {:.4f}".format(SSIM_private))
