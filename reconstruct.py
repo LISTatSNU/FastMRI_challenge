@@ -5,7 +5,7 @@ if os.getcwd() + '/utils/model/' not in sys.path:
     sys.path.insert(1, os.getcwd() + '/utils/model/')
 
 from utils.learning.test_part import forward
-
+import time
     
 def parse():
     parser = argparse.ArgumentParser(description='Test Varnet on FastMRI challenge Images',
@@ -40,6 +40,8 @@ if __name__ == '__main__':
         
     assert(None not in [public_acc, private_acc])
     
+    start_time = time.time()
+    
     # Public Acceleration
     args.data_path = args.path_data / public_acc # / "kspace"    
     args.forward_dir = '../result' / args.net_name / 'reconstructions_leaderboard' / 'public'
@@ -52,3 +54,7 @@ if __name__ == '__main__':
     print(f'Saved into {args.forward_dir}')
     forward(args)
     
+    reconstructions_time = time.time() - start_time
+    print(f'Total Reconstruction Time = {reconstructions_time:.2f}s')
+    
+    print('Success!') if reconstructions_time < 3000 else print('Fail!')
