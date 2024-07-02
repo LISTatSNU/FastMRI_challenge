@@ -28,20 +28,18 @@
 
 ### result 폴더의 구조
 * result 폴더는 모델의 이름에 따라서 여러 폴더로 나뉠 수 있습니다.
-* test_Unet (혹은 test_VN) 폴더는 아래 3개의 폴더로 구성되어 있습니다.
+* test_Unet (혹은 test_Varnet) 폴더는 아래 3개의 폴더로 구성되어 있습니다.
   * checkpoints - `model.pt`, `best_model.pt`의 정보가 있습니다. 모델의 weights 정보를 담고 있습니다.
   * reconstructions_val - validation dataset의 reconstruction을 저장합니다. brain_{mask 형식}_{순번}.h5 형식입니다. (```train.py``` 참고)
-  * reconstructions_leaderboard - leaderboard dataset의 reconstruction을 저장합니다. brain_test_{순번}.h5 형식입니다. (```evaluation.py``` 참고)
+  * reconstructions_leaderboard - leaderboard dataset의 reconstruction을 저장합니다. brain_test_{순번}.h5 형식입니다. (```reconstruct.py``` 참고)
   * val_loss_log.npy - epoch별로 validation loss를 기록합니다. (```train.py``` 참고)
 
 ## 2. 폴더 정보
-Python 3.8.10
 
 ```bash
 ├── .gitignore
-├── evaluate.py
+├── reconstruct.py
 ├── leaderboard_eval.py
-├── plot.py
 ├── README.md
 ├── train.py
 └── utils
@@ -56,25 +54,23 @@ Python 3.8.10
 │   │   └── train_part.py
 │   └── model
 │       └── varnet.py
-├── Data
 └── result
 ```
 
 ## 3. Before you start
-* ```train.py```, ```evaluation.py```, ```leaderboard_eval.py``` 순으로 코드를 실행하면 됩니다.
+* ```train.py```, ```reconstruct.py```, ```leaderboard_eval.py``` 순으로 코드를 실행하면 됩니다.
 * ```train.py```
    * train/validation을 진행하고 학습한 model의 결과를 result 폴더에 저장합니다.
    * 가장 성능이 좋은 모델의 weights을 ```best_model.pt```으로 저장합니다. 
-* ```evaluation.py```
+* ```reconstruct.py```
    * ```train.py```으로 학습한 ```best_model.pt```을 활용해 leader_board dataset을 reconstruction하고 그 결과를 result 폴더에 저장합니다.
    * acceleration 종류와 관계없이 하나의 파이프라인을 통해 전부 reconstruction을 실행합니다.
+   * Inference Time이 대회 GPU 기준으로 3000초를 초과할 경우 Total SSIM을 기록할 수 없습니다. 실제 Evaluation 때 조교가 확인할 예정이며, inference time은 과도하게 모델이 크지 않는다면 걱정하실 필요 없습니다.
 * ```leaderboard_eval.py```
    * ```evaluation.py```을 활용해 생성한 reconstruction의 SSIM을 측정합니다.
    * SSIM (public): 기존에 공개된 acc4, acc5, acc8 중 하나인 acc5 데이터의 reconstruction의 SSIM을 측정합니다.
    * SSIM (private): 기존에 공개되지 않은 acc9 데이터의 reconstruction의 SSIM을 측정합니다.
    * Total SSIM은 SSIM (public), SSIM (private)의 평균으로 계산됩니다. Report할 때 이 값을 제출하시면 됩니다.
-   * Inference Time이 대회 GPU 기준으로 특정 시간을 초과할 경우 Total SSIM을 기록할 수 없습니다. 실제 Evaluation 때 조교가 확인할 예정이며, inference time은 과도하게 모델이 크지 않는다면 걱정하실 필요 없습니다.
-        * 현재 대회 GPU 세팅이 늦어지는 관계로, 세팅 완료 후 정확한 시간 기준을 공지드리겠습니다. 불편을 드려 죄송합니다.
 
 ## 4. How to set?
 ```bash
