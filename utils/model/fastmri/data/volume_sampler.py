@@ -9,7 +9,7 @@ from typing import List, Optional, Union
 
 import torch
 import torch.distributed as dist
-from fastmri.data.mri_data import CombinedSliceDataset, SliceDataset
+from utils.model.fastmri.data.mri_data import CombinedSliceDataset, SliceDataset
 from torch.utils.data import Sampler
 
 

@@ -7,7 +7,7 @@ LICENSE file in the root directory of this source tree.
 
 from typing import Dict, Optional, Sequence, Tuple, Union
 
-import fastmri
+import utils.model.fastmri as fastmri
 import numpy as np
 import torch
 
