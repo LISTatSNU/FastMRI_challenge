@@ -132,25 +132,8 @@ if __name__ == '__main__':
     args.leaderboard_data_path = args.path_leaderboard_data / private_acc / 'image'
     args.your_data_path = args.path_your_data / 'private'
     SSIM_private = forward(args)
-<<<<<<< Updated upstream
    
     print("Leaderboard SSIM : {:.4f}".format((SSIM_public + SSIM_private) / 2))
     print("="*10 + " Details " + "="*10)
     print("Leaderboard SSIM (public): {:.4f}".format(SSIM_public))
     print("Leaderboard SSIM (private): {:.4f}".format(SSIM_private))
-=======
-    
-    inference_time = time.time() - start_time
-    
-    print("Inference Time : {:.2f}s".format(inference_time))
-    
-    if inference_time >= 1000:
-        print("Inference Time is Over!")
-    
-    else:
-        print("Leaderboard SSIM : {:.4f}".format((SSIM_public + SSIM_private) / 2))
-        print("="*10 + " Details " + "="*10)
-        print("Leaderboard SSIM (public): {:.4f}".format(SSIM_public))
-        print("Leaderboard SSIM (private): {:.4f}".format(SSIM_private))
-
->>>>>>> Stashed changes
