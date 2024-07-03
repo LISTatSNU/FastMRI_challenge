@@ -61,7 +61,7 @@ def forward(args):
     idx = 0
     ssim_calculator = SSIM().to(device=device)
     with torch.no_grad():
-        for i_subject in range(3):
+        for i_subject in range(58):
             l_fname = os.path.join(args.leaderboard_data_path, 'brain_test' + str(i_subject+1) + '.h5')
             y_fname = os.path.join(args.your_data_path, 'brain_test' + str(i_subject+1) + '.h5')
             with h5py.File(l_fname, "r") as hf:
@@ -132,8 +132,25 @@ if __name__ == '__main__':
     args.leaderboard_data_path = args.path_leaderboard_data / private_acc / 'image'
     args.your_data_path = args.path_your_data / 'private'
     SSIM_private = forward(args)
+<<<<<<< Updated upstream
    
     print("Leaderboard SSIM : {:.4f}".format((SSIM_public + SSIM_private) / 2))
     print("="*10 + " Details " + "="*10)
     print("Leaderboard SSIM (public): {:.4f}".format(SSIM_public))
     print("Leaderboard SSIM (private): {:.4f}".format(SSIM_private))
+=======
+    
+    inference_time = time.time() - start_time
+    
+    print("Inference Time : {:.2f}s".format(inference_time))
+    
+    if inference_time >= 1000:
+        print("Inference Time is Over!")
+    
+    else:
+        print("Leaderboard SSIM : {:.4f}".format((SSIM_public + SSIM_private) / 2))
+        print("="*10 + " Details " + "="*10)
+        print("Leaderboard SSIM (public): {:.4f}".format(SSIM_public))
+        print("Leaderboard SSIM (private): {:.4f}".format(SSIM_private))
+
+>>>>>>> Stashed changes
