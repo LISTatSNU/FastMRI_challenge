@@ -2,6 +2,14 @@
 2024 SNU FastMRI challenge
 
 ## 1. 폴더 계층
+## Branch
+- <a href = https://github.com/LISTatSNU/FastMRI_challenge/tree/2021_baby_unet>2021_baby_unet</a> [3]
+- <a href = https://github.com/LISTatSNU/FastMRI_challenge/tree/2022_baby_unet>2022_baby_unet</a> [3]
+- <a href = https://github.com/LISTatSNU/FastMRI_challenge/tree/2022_varnet>2022_varnet</a> [2]
+- <a href = https://github.com/LISTatSNU/FastMRI_challenge/tree/2023_baby_unet>2023_baby_unet</a> [3]
+- <a href = https://github.com/LISTatSNU/FastMRI_challenge/tree/2023_baby_varnet>2023_baby_varnet</a> [2]
+- <a href = https://github.com/LISTatSNU/FastMRI_challenge/tree/2024_baby_unet>2024_baby_unet</a> [3]
+- <a href = https://github.com/LISTatSNU/FastMRI_challenge/tree/2024_baby_varnet>2024_baby_varnet</a> [2]
 
 ### 폴더의 전체 구조
 ![image](docs/fastmri_folder_structure.png)
