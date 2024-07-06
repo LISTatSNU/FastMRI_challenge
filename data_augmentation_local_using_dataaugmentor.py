@@ -14,71 +14,33 @@ from utils.data.transforms import DataTransform
 def main(args):
     # data loader 짜기
     # data epoch 200 기준 augmented data generation pipeline 만들어 두기.
+    epoch = 0
+    current_epoch_fn = lambda: epoch
+
+    if args.aug_on:
+        data_augmentor = DataAugmentor(args, current_epoch_fn)
+    else:
+        data_augmentor = None
     train_loader = create_data_loaders(data_path = args.data_path_train,
                                        args = args,
                                        shuffle=True,
                                        isforward=False,
-                                       data_preprocessing=args.data_preprocessing)
+                                       augmentor=data_augmentor)
     # data_preprocessing = False 인 경우, mask 를 씌우지 않는다.
-    transform = DataTransform(isforward=False,
-                              max_key=args.max_key)
 
     for epoch in range(100,102):
-        augmentor = AugmentationPipeline(args)
-        current_epoch_fn = lambda : epoch
-
         for iter, data in enumerate(train_loader):
-            augmentor.augmentation_strength = 1
-            print("augmentation_strength: ",augmentor.augmentation_strength)
-            mask, kspace, target, attrs, fname, dataslice = data
-            kspace_stack = torch.stack((kspace.real, kspace.imag), dim=-1)
+            mask, kspace, target, _, fname, _ = data
 
-            kspace = np.array(kspace)[0]
-            kspace_stack = kspace_stack[0].clone()
-            target = target[0]
-            fname = fname[0]
-            aug_kspace, aug_target = augmentor.augment_from_kspace(kspace_stack,
-                                                                  target_size=target.shape,
-                                                                  max_train_size=args.max_train_resolution)
-
-            aug_kspace = np.array(aug_kspace)
-            aug_kspace_real = aug_kspace[...,0]
-            aug_kspace_imag = aug_kspace[...,1]
-            aug_kspace_sum = aug_kspace_real + 1j*aug_kspace_imag
-
-
-
-            # mask = np.array(mask)[0]
-            # aug_target = np.array(aug_target)
+            # dir = os.path.join(os.getcwd(), "local", fname)
+            # os.makedirs(dir, exist_ok=True)
+            # img = target; title = f"target_image-no_aug-iter_{iter}"; path = os.path.join(dir, title)
+            # save_figure(img, title, path)
             #
-            # (_,
-            #  masked_aug_kspace,
-            #  aug_target,
-            #  _,
-            #  _,
-            #  _ ) = transform(mask, aug_kspace_sum, aug_target, attrs, fname, dataslice)
-            # masked_aug_kspace = np.array(masked_aug_kspace)
-
-
-            dir = os.path.join(os.getcwd(), "local", fname)
-            os.makedirs(dir, exist_ok=True)
-            img = aug_target; title = f"target_image-aug-iter_{iter}"; path = os.path.join(dir, title)
-            save_figure(img, title, path)
-
-            dir = os.path.join(os.getcwd(), "local", fname)
-            os.makedirs(dir, exist_ok=True)
-            img = target; title = f"target_image-no_aug-iter_{iter}"; path = os.path.join(dir, title)
-            save_figure(img, title, path)
-
-            dir = os.path.join(os.getcwd(), "local", fname)
-            os.makedirs(dir, exist_ok=True)
-            img = np.mean(np.log(np.abs(kspace + 1e-10)), axis=0); title = f"kspace_image-no_aug-iter_{iter}"; path = os.path.join(dir, title)
-            save_figure(img, title, path)
-
-            dir = os.path.join(os.getcwd(), "local", fname)
-            os.makedirs(dir, exist_ok=True)
-            img = np.mean(np.log(np.abs(aug_kspace_sum + 1e-10)), axis=0); title = f"kspace_image-aug-iter_{iter}"; path = os.path.join(dir, title)
-            save_figure(img, title, path)
+            # dir = os.path.join(os.getcwd(), "local", fname)
+            # os.makedirs(dir, exist_ok=True)
+            # img = np.mean(np.log(np.abs(kspace + 1e-10)), axis=0); title = f"kspace_image-no_aug-iter_{iter}"; path = os.path.join(dir, title)
+            # save_figure(img, title, path)
 
 
 

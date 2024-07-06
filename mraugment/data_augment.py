@@ -52,7 +52,7 @@ class AugmentationPipeline:
 
         # Rotation by multiples of 90 deg 
         if self.random_apply('rot90'):
-            k = self.rng.randint(1, 4)  
+            k = self.rng.randint(0,2)
             im = torch.rot90(im, k, dims=[-2, -1])
 
         # Translation by integer number of pixels
@@ -249,12 +249,8 @@ class DataAugmentor:
                                                                           max_train_size=self.max_train_resolution)
         else:
             # Crop in image space if image is too large
-            if self.max_train_resolution is not None:
-                if kspace.shape[-3] > self.max_train_resolution[0] or kspace.shape[-2] > self.max_train_resolution[1]:
-                    im = ifft2c(kspace)
-                    im = complex_crop_if_needed(im, self.max_train_resolution)
-                    kspace = fft2c(im)
-                    
+            target = fft2c(kspace)
+
         return kspace, target
         
     def schedule_p(self):

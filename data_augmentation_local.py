@@ -1,9 +1,9 @@
 import argparse
-import os
+import os, torch
 from pathlib import Path
 import numpy as np
 
-from mraugment.data_augment import DataAugmentor
+from mraugment.data_augment import DataAugmentor, AugmentationPipeline
 from mraugment.data_transforms import VarNetDataTransform
 from utils.model.fastmri.data.subsample import create_mask_for_mask_type
 from utils.data.load_data import create_data_loaders
@@ -14,6 +14,8 @@ from utils.data.transforms import DataTransform
 def main(args):
     # data loader 짜기
     # data epoch 200 기준 augmented data generation pipeline 만들어 두기.
+    model = None
+
     train_loader = create_data_loaders(data_path = args.data_path_train,
                                        args = args,
                                        shuffle=True,
@@ -24,57 +26,62 @@ def main(args):
                               max_key=args.max_key)
 
     for epoch in range(100,102):
+        augmentor = AugmentationPipeline(args)
         current_epoch_fn = lambda : epoch
-        mask = create_mask_for_mask_type(
-            args.mask_type, args.center_fractions, args.accelerations
-        )
-
-        augmentor = DataAugmentor(args, current_epoch_fn)
-        train_transform = VarNetDataTransform(augmentor=augmentor, mask_func=mask, use_seed=False)
 
         for iter, data in enumerate(train_loader):
-            if not args.data_preprocessing:
-                mask, origin_kspace, target, attrs, fname, dataslice = data
-                kspace = origin_kspace
-            else:
-                mask, masked_kspace, target, maximum, fname, slice = data
-                kspace = masked_kspace
+            augmentor.augmentation_strength = 1
+            print("augmentation_strength: ",augmentor.augmentation_strength)
+            mask, kspace, target, attrs, fname, dataslice = data
+            kspace_stack = torch.stack((kspace.real, kspace.imag), dim=-1)
 
-            # mask = np.array(mask)
-            # kspace = np.array(kspace) + 1e-10
-            # target = np.array(target)
-            # fname = fname[0]
+            kspace = np.array(kspace)[0]
+            kspace_stack = kspace_stack[0].clone()
+            target = target[0]
+            fname = fname[0]
+            aug_kspace, aug_target = augmentor.augment_from_kspace(kspace_stack,
+                                                                  target_size=target.shape,
+                                                                  max_train_size=args.max_train_resolution)
 
-            if augmentor.schedule_p() > 0.0:
-                aug_kspace, aug_target = augmentor(kspace, target)
+            aug_kspace = np.array(aug_kspace)
+            aug_kspace_real = aug_kspace[...,0]
+            aug_kspace_imag = aug_kspace[...,1]
+            aug_kspace_sum = aug_kspace_real + 1j*aug_kspace_imag
 
-            (_,
-             masked_aug_kspace,
-             aug_target,
-             _,
-             _,
-             _ ) = transform(mask, aug_kspace, aug_target, attrs, fname, dataslice)
-            masked_aug_kspace = masked_aug_kspace.numpy()
-            aug_target = aug_target.numpy()
 
-            #### Visualize target image
+
+            # mask = np.array(mask)[0]
+            # aug_target = np.array(aug_target)
+            #
+            # (_,
+            #  masked_aug_kspace,
+            #  aug_target,
+            #  _,
+            #  _,
+            #  _ ) = transform(mask, aug_kspace_sum, aug_target, attrs, fname, dataslice)
+            # masked_aug_kspace = np.array(masked_aug_kspace)
+
+
             dir = os.path.join(os.getcwd(), "local", fname)
             os.makedirs(dir, exist_ok=True)
-            img = target[0]; title = f"target_image-iter_{iter}"; path = os.path.join(dir, title)
+            img = aug_target; title = f"target_image-aug-iter_{iter}"; path = os.path.join(dir, title)
             save_figure(img, title, path)
 
-            #### Visualize kspace image
-            kspace = kspace[0]
-            if args.data_preprocessing:
-                real_part = kspace[..., 0]
-                imaginary_part = kspace[..., 1]
-                kspace = real_part + 1j * imaginary_part
-            magnitude = np.log(np.abs(kspace))
-            img = np.mean(magnitude, axis=0)
-            title = f"kspace_image-preprocessing_{args.data_preprocessing}-iter_{iter}"
-            path = os.path.join(dir, title)
+            dir = os.path.join(os.getcwd(), "local", fname)
+            os.makedirs(dir, exist_ok=True)
+            img = target; title = f"target_image-no_aug-iter_{iter}"; path = os.path.join(dir, title)
             save_figure(img, title, path)
-            import pdb; pdb.set_trace()
+
+            dir = os.path.join(os.getcwd(), "local", fname)
+            os.makedirs(dir, exist_ok=True)
+            img = np.mean(np.log(np.abs(kspace + 1e-10)), axis=0); title = f"kspace_image-no_aug-iter_{iter}"; path = os.path.join(dir, title)
+            save_figure(img, title, path)
+
+            dir = os.path.join(os.getcwd(), "local", fname)
+            os.makedirs(dir, exist_ok=True)
+            img = np.mean(np.log(np.abs(aug_kspace_sum + 1e-10)), axis=0); title = f"kspace_image-aug-iter_{iter}"; path = os.path.join(dir, title)
+            save_figure(img, title, path)
+
 
 
 

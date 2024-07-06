@@ -7,8 +7,7 @@ from typing import Dict, Optional, Sequence, Tuple, Union
 import utils.model.fastmri
 import numpy as np
 import torch
-
-from utils.model.fastmri.data.subsample import MaskFunc
+from utils.data.transforms import DataTransform
 from utils.model.fastmri.data.transforms import to_tensor, apply_mask
 
 class VarNetDataTransform:
@@ -16,7 +15,7 @@ class VarNetDataTransform:
     Data Transformer for training VarNet models with added MRAugment data augmentation.
     """
 
-    def __init__(self, augmentor = None, mask_func: Optional[MaskFunc] = None, use_seed: bool = True):
+    def __init__(self, augmentor = None, data_transform:DataTransform = None, use_seed: bool = True):
         """
         Args:
             augmentor: DataAugmentor object that encompasses the MRAugment pipeline and
@@ -27,8 +26,8 @@ class VarNetDataTransform:
                 generator seed from the filename. This ensures that the same
                 mask is used for all the slices of a given volume every time.
         """
-        self.mask_func = mask_func
         self.use_seed = use_seed
+        self.data_transform = data_transform
         if augmentor is not None:
             self.use_augment = True
             self.augmentor = augmentor
@@ -37,8 +36,8 @@ class VarNetDataTransform:
 
     def __call__(
         self,
-        kspace: np.ndarray,
         mask: np.ndarray,
+        kspace: np.ndarray,
         target: np.ndarray,
         attrs: Dict,
         fname: str,
@@ -82,40 +81,15 @@ class VarNetDataTransform:
                 kspace, target = self.augmentor(kspace, target.shape)
                 
         # Add singleton channel dimension if singlecoil
-        if len(kspace.shape) == 3:
-            kspace.unsqueeze_(0)
-        assert len(kspace.shape) == 4
-                
+        if len(kspace.shape) == 4:
+            real = kspace[...,0]
+            imag = kspace[...,1]
+            kspace = real + 1j*imag
+        assert len(kspace.shape) == 3
+
         seed = None if not self.use_seed else tuple(map(ord, fname))
-        acq_start = attrs["padding_left"]
-        acq_end = attrs["padding_right"]
 
-        crop_size = torch.tensor([target.shape[0], target.shape[1]])
-
-        if self.mask_func:
-            masked_kspace, mask = apply_mask(
-                kspace, self.mask_func, seed, (acq_start, acq_end)
-            )
-        else:
-            masked_kspace = kspace
-            shape = np.array(kspace.shape)
-            num_cols = shape[-2]
-            shape[:-3] = 1
-            mask_shape = [1] * len(shape)
-            mask_shape[-2] = num_cols
-            mask = torch.from_numpy(mask.reshape(*mask_shape).astype(np.float32))
-            mask = mask.reshape(*mask_shape)
-            mask[:, :, :acq_start] = 0
-            mask[:, :, acq_end:] = 0
-        return (
-            masked_kspace,
-            mask.byte(),
-            target,
-            fname,
-            slice_num,
-            max_value,
-            crop_size,
-        )
+        return self.data_transform(mask, kspace, target, attrs, fname, slice_num)
     
     def seed_pipeline(self, seed):
         """
