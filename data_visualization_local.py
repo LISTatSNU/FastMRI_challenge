@@ -19,18 +19,8 @@ def main(args):
                                        shuffle=True,
                                        isforward=False,
                                        data_preprocessing=args.data_preprocessing)
-    # data_preprocessing = False 인 경우, mask 를 씌우지 않는다.
-    transform = DataTransform(isforward=False,
-                              max_key=args.max_key)
 
-    for epoch in range(100,102):
-        current_epoch_fn = lambda : epoch
-        mask = create_mask_for_mask_type(
-            args.mask_type, args.center_fractions, args.accelerations
-        )
-
-        augmentor = DataAugmentor(args, current_epoch_fn)
-        train_transform = VarNetDataTransform(augmentor=augmentor, mask_func=mask, use_seed=False)
+    for epoch in range(args.max_epochs):
 
         for iter, data in enumerate(train_loader):
             if not args.data_preprocessing:
@@ -40,22 +30,9 @@ def main(args):
                 mask, masked_kspace, target, maximum, fname, slice = data
                 kspace = masked_kspace
 
-            # mask = np.array(mask)
-            # kspace = np.array(kspace) + 1e-10
-            # target = np.array(target)
-            # fname = fname[0]
-
-            if augmentor.schedule_p() > 0.0:
-                aug_kspace, aug_target = augmentor(kspace, target)
-
-            (_,
-             masked_aug_kspace,
-             aug_target,
-             _,
-             _,
-             _ ) = transform(mask, aug_kspace, aug_target, attrs, fname, dataslice)
-            masked_aug_kspace = masked_aug_kspace.numpy()
-            aug_target = aug_target.numpy()
+            kspace = np.array(kspace) + 1e-10
+            target = np.array(target)
+            fname = fname[0]
 
             #### Visualize target image
             dir = os.path.join(os.getcwd(), "local", fname)
@@ -74,7 +51,6 @@ def main(args):
             title = f"kspace_image-preprocessing_{args.data_preprocessing}-iter_{iter}"
             path = os.path.join(dir, title)
             save_figure(img, title, path)
-            import pdb; pdb.set_trace()
 
 
 
