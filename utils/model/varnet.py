@@ -210,8 +210,8 @@ class VarNet(nn.Module):
 
     def __init__(
         self,
-        num_cascades: int = 12,
-        sens_chans: int = 8,
+        num_cascades: int = 6,
+        sens_chans: int = 6,
         sens_pools: int = 4,
         chans: int = 18,
         pools: int = 4,

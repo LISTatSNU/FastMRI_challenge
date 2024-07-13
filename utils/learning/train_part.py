@@ -13,6 +13,7 @@ from utils.data.load_data import create_data_loaders
 from utils.common.utils import save_reconstructions, ssim_loss
 from utils.common.loss_function import SSIMLoss
 from utils.model.varnet import VarNet
+from utils.model.fvarnet import FVarNet
 
 import os
 
@@ -118,9 +119,12 @@ def train(args):
     torch.cuda.set_device(device)
     print('Current cuda device: ', torch.cuda.current_device())
 
-    model = VarNet(num_cascades=args.cascade, 
+    model = FVarNet(num_cascades=args.cascade, 
+                    num_cascades_img=args.cascade_img,
                    chans=args.chans, 
-                   sens_chans=args.sens_chans)
+                   sens_chans=args.sens_chans,
+                   feature_chans=args.feature_chans
+                  )
     model.to(device=device)
 
     """

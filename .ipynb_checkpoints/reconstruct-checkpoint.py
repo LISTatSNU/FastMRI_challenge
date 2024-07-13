@@ -15,7 +15,10 @@ def parse():
     parser.add_argument('-n', '--net_name', type=Path, default='test_fivarnet', help='Name of network')
     parser.add_argument('-p', '--path_data', type=Path, default='/Data/leaderboard/', help='Directory of test data')
     
-    parser.add_argument('--cascade', type=int, default=1, help='Number of cascades | Should be less than 12')
+    parser.add_argument('-f', '--feature_chans', type=int, default=32, help='Number of feature space channels')
+    parser.add_argument('--cascade', type=int, default=2, help='Number of cascades | Should be less than 12')
+    parser.add_argument('--cascade_img', type=int, default=2, help='Number of cascades image part | Should be less than 12') ## important hyperparameter
+
     parser.add_argument('--chans', type=int, default=9, help='Number of channels for cascade U-Net')
     parser.add_argument('--sens_chans', type=int, default=4, help='Number of channels for sensitivity map U-Net')
     parser.add_argument("--input_key", type=str, default='kspace', help='Name of input key')
