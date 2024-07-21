@@ -65,7 +65,7 @@
 * ```reconstruct.py```
    * ```train.py```으로 학습한 ```best_model.pt```을 활용해 leader_board dataset을 reconstruction하고 그 결과를 result 폴더에 저장합니다.
    * acceleration 종류와 관계없이 하나의 파이프라인을 통해 전부 reconstruction을 실행합니다.
-   * Inference Time이 대회 GPU 기준으로 3000초를 초과할 경우 Total SSIM을 기록할 수 없습니다. 실제 Evaluation 때 조교가 확인할 예정이며, inference time은 과도하게 모델이 크지 않는다면 걱정하실 필요 없습니다.
+   * Inference Time이 대회 GPU 기준으로 3000초를 초과할 경우 Total SSIM을 기록할 수 없습니다. 실제 Evaluation 때 조교가 확인할 예정이며, inference time은 과도하게 모델이 크지 않는다면 걱정하실 필요 없습니다. (2024. 07. 21. 17:00 pm 추가) 3000초는 reconstruction process의 total time입니다. leaderboard_data --> (optional) preprocessed_data --> reconstruction하는 모든 과정이 포함되며, 여러 개의 모델을 사용하셔서 Inference를 진행하시는 경우에도 한 개의 모델이 아닌 전체 모델에 관하여 3000초를 초과해서는 안 됩니다.
 * ```leaderboard_eval.py```
    * ```evaluation.py```을 활용해 생성한 reconstruction의 SSIM을 측정합니다.
    * SSIM (public): 기존에 공개된 acc4, acc5, acc8 중 하나인 acc5 데이터의 reconstruction의 SSIM을 측정합니다.
