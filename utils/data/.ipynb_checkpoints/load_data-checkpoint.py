@@ -2,6 +2,8 @@ import h5py
 import random
 from utils.data.transforms import DataTransform
 from torch.utils.data import Dataset, DataLoader
+from utils.mraugment.data_transforms import VarNetDataTransform
+from utils.mraugment.data_augment import DataAugmentor
 from pathlib import Path
 import numpy as np
 
@@ -72,6 +74,33 @@ def create_data_loaders(data_path, args, shuffle=False, isforward=False):
     data_storage = SliceData(
         root=data_path,
         transform=DataTransform(isforward, max_key_),
+        input_key=args.input_key,
+        target_key=target_key_,
+        forward = isforward
+    )
+
+    data_loader = DataLoader(
+        dataset=data_storage,
+        batch_size=args.batch_size,
+        shuffle=shuffle,
+    )
+    return data_loader
+
+
+def create_data_augmentation_loaders(data_path, args, shuffle=False, model = None, isforward=False):
+    current_epoch_fn = lambda: model.current_epoch
+    data_augmentor = DataAugmentor(args, current_epoch_fn)
+    
+    if isforward == False:
+        max_key_ = args.max_key
+        target_key_ = args.target_key
+    else:
+        max_key_ = -1
+        target_key_ = -1
+    data_storage = SliceData(
+        root=data_path,
+        transform=VarNetDataTransform(isforward, max_key_, data_augmentor),
+        #transform=DataTransform(isforward, max_key_),
         input_key=args.input_key,
         target_key=target_key_,
         forward = isforward

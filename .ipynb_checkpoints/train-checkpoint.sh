@@ -1,8 +1,13 @@
 python train.py \
   -b 1\
-  -e 5 \
-  -l 0.001 \
-  -r 10 \
-  -n 'test_FIVarnet' \
+  -e 100 \
+  -l 0.002 \
+  -r 1000 \
+  -n 'test_FIVarnet_lrup' \
   -t '/home/Data/train/' \
-  -v '/home/Data/val/'
+  -v '/home/Data/val/'\
+  --cascade 3\
+  --cascade_img 3\
+  -f 32\
+  --chans 12\
+  --sens_chans 6

@@ -17,27 +17,37 @@ def complex_to_chan_dim(x: torch.Tensor) -> torch.Tensor:
 def chan_complex_to_last_dim(x: torch.Tensor) -> torch.Tensor:
     b, c2, h, w = x.shape
     assert c2 % 2 == 0
-    c = c2 // 2
+    c = c2 // 2   
     return x.view(b, 2, c, h, w).permute(0, 2, 3, 4, 1).contiguous()
     
+def norm(x, m, v):
+    return (x -m) * torch.rsqrt(v)
+
+def unnorm(x, m, v):
+    return m + x * torch.sqrt(v)
     
 class Encoder(nn.Module):
     def __init__(self, in_channels=2, out_channels=32):
         super(Encoder, self).__init__()
-        self.conv = nn.Conv2d(in_channels, out_channels, kernel_size=5, padding=2)
+        self.conv = nn.Conv2d(in_channels, out_channels, kernel_size=5, padding=2, bias=True)
     
-    def forward(self, x):
+    def forward(self, x, m, v):
         x = complex_to_chan_dim(x)
-        x = self.conv(x)
+        m = m.view(1, -1, 1, 1)
+        v = v.view(1, -1, 1, 1)
+        x = self.conv(norm(x, m, v))
         return x
     
 class Decoder(nn.Module):
     def __init__(self, in_channels=32, out_channels=2):
         super(Decoder, self).__init__()
-        self.conv = nn.Conv2d(in_channels, out_channels, kernel_size=5, padding=2)
+        self.conv = nn.Conv2d(in_channels, out_channels, kernel_size=5, padding=2, bias=True)
 
-    def forward(self, x):
+    def forward(self, x, m, v):
         x = self.conv(x)
+        m = m.view(1, -1, 1, 1)
+        v = v.view(1, -1, 1, 1)
+        x = unnorm(x, m, v)
         x = chan_complex_to_last_dim(x)
         return x
 
@@ -80,7 +90,7 @@ class FNormUnet(nn.Module):
     def norm(self, x: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         # group norm
         b, c, h, w = x.shape
-        x = x.view(b, 1, c * h * w)
+        x = x.reshape(b, 1, c * h * w)
 
         mean = x.mean(dim=2).view(b, 1, 1, 1)
         std = x.std(dim=2).view(b, 1, 1, 1)
@@ -141,11 +151,7 @@ def sens_reduce(x: torch.Tensor, sens_maps: torch.Tensor) -> torch.Tensor:
             dim=1, keepdim=True
         )
 
-def norm(x, m, v):
-    return (x-m) * torch.rsqrt(v)
 
-def unnorm(x, m, v)
-    return m + x * torch.sqrt(v)
     
 
 class FVarNetBlock(nn.Module):
@@ -157,7 +163,7 @@ class FVarNetBlock(nn.Module):
         self.model = model
         self.encoder = encoder
         self.decoder = decoder
-        self.attention = Attention()
+        self.attention = Attention(feature_chans = feature_chans)
         self.dc_weight = nn.Parameter(torch.ones(1))
 
 
@@ -166,18 +172,23 @@ class FVarNetBlock(nn.Module):
         current_fspace: torch.Tensor,
         ref_kspace: torch.Tensor,
         mask: torch.Tensor,
-        sens_maps: torch.Tensor
+        sens_maps: torch.Tensor,
+        mean : torch.Tensor,
+        var : torch.Tensor,
     ) -> torch.Tensor:
         
         zero = torch.zeros(1, 1, 1, 1, 1).to(current_fspace)
+                
         
-        current_kspace = sens_expand(self.decoder(current_fspace), sens_maps)
+        soft_dc = self.dc_weight * self.encoder(
+            sens_reduce(
+                    torch.where(mask, 
+                                sens_expand(self.decoder(current_fspace, mean, var), sens_maps) - ref_kspace, 
+                                zero), 
+                    sens_maps),
+            mean, var)
         
-        soft_dc_kspace = torch.where(mask, current_kspace - ref_kspace, zero)
-        
-        soft_dc = self.dc_weight * self.encoder(sens_reduce(soft_dc_kspace ,sens_maps))
-        
-        model_term = self.model(self.attention(current_fspace))
+        model_term = self.model(self.attention(current_fspace))        
         
         return current_fspace - soft_dc - model_term
 
@@ -210,26 +221,35 @@ class FVarNet(nn.Module):
         
         self.sens_net = SensitivityModel(sens_chans, sens_pools)
         self.cascades = nn.ModuleList(
-            [FVarNetBlock(FNormUnet(chans, pools,  in_chans=32, out_chans=32), self.encoder, self.decoder) 
+            [FVarNetBlock(FNormUnet(chans, pools,  in_chans=feature_chans, out_chans=feature_chans), self.encoder, self.decoder, feature_chans = feature_chans) 
              for _ in range(num_cascades)]
         )
         self.cascades_img = nn.ModuleList(
             [VarNetBlock(NormUnet(chans, pools, in_chans=2, out_chans=2)) for _ in range(num_cascades_img)]
         )
+        self.current_epoch = 0
         
+    def mean_var(self, image):
+        image = complex_to_chan_dim(image)
+        m = torch.mean(image, dim=[0,2,3])
+        v = torch.var(image, dim=[0,2,3])
+        image = chan_complex_to_last_dim(image)
+        return m, v
+    
     def forward(self, masked_kspace: torch.Tensor, mask: torch.Tensor) -> torch.Tensor:
         sens_maps = self.sens_net(masked_kspace, mask)
         kspace_pred = masked_kspace.clone()
+        image = sens_reduce(kspace_pred, sens_maps)
         
-        fspace_pred = self.encoder(sens_reduce(kspace_pred, sens_maps))
+        mean, var = self.mean_var(image)
+        
+        fspace_pred = self.encoder(image, mean, var)
         
         for cascade in self.cascades:
-            fspace_pred = cascade(fspace_pred, masked_kspace, mask, sens_maps)
+            fspace_pred = cascade(fspace_pred, masked_kspace, mask, sens_maps, mean, var)
             
-        kspace_pred = sens_expand(self.decoder(fspace_pred), sens_maps)
-        
-        print(kspace_pred, torch.mean(kspace_pred))
-        
+        kspace_pred = sens_expand(self.decoder(fspace_pred, mean, var), sens_maps)
+                
         for cascade in self.cascades_img:
             kspace_pred = cascade(kspace_pred, masked_kspace, mask, sens_maps)
             
@@ -237,4 +257,5 @@ class FVarNet(nn.Module):
         
         height = result.shape[-2]
         width = result.shape[-1]
+        
         return result[..., (height - 384) // 2 : 384 + (height - 384) // 2, (width - 384) // 2 : 384 + (width - 384) // 2]

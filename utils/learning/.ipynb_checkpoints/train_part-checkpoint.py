@@ -2,6 +2,7 @@ import shutil
 import numpy as np
 import torch
 import torch.nn as nn
+from torch import optim
 import time
 import requests
 from tqdm import tqdm
@@ -9,7 +10,7 @@ from pathlib import Path
 import copy
 
 from collections import defaultdict
-from utils.data.load_data import create_data_loaders
+from utils.data.load_data import create_data_loaders, create_data_augmentation_loaders
 from utils.common.utils import save_reconstructions, ssim_loss
 from utils.common.loss_function import SSIMLoss
 from utils.model.varnet import VarNet
@@ -36,6 +37,8 @@ def train_epoch(args, epoch, model, data_loader, optimizer, loss_type):
         loss.backward()
         optimizer.step()
         total_loss += loss.item()
+        
+        model.current_epoch += 1
 
         if iter % args.report_interval == 0:
             print(
@@ -146,11 +149,12 @@ def train(args):
     loss_type = SSIMLoss().to(device=device)
     optimizer = torch.optim.Adam(model.parameters(), args.lr)
 
-    best_val_loss = 1.
-    start_epoch = 0
+    scheduler = optim.lr_scheduler.LambdaLR(optimizer=optimizer,
+                                        lr_lambda=lambda epoch: 0.95 ** max(epoch-50, 0) )
 
-    
-    train_loader = create_data_loaders(data_path = args.data_path_train, args = args, shuffle=True)
+    best_val_loss = 1.
+    start_epoch = 0    
+    train_loader = create_data_augmentation_loaders(data_path = args.data_path_train, args = args, model = model, shuffle=True)
     val_loader = create_data_loaders(data_path = args.data_path_val, args = args)
     
     val_loss_log = np.empty((0, 2))
@@ -159,6 +163,8 @@ def train(args):
         
         train_loss, train_time = train_epoch(args, epoch, model, train_loader, optimizer, loss_type)
         val_loss, num_subjects, reconstructions, targets, inputs, val_time = validate(args, model, val_loader)
+        
+        scheduler.step()
         
         val_loss_log = np.append(val_loss_log, np.array([[epoch, val_loss]]), axis=0)
         file_path = os.path.join(args.val_loss_dir, "val_loss_log")
