@@ -7,4 +7,3 @@ scikit-image
 pyyaml
 opencv-python
 matplotlib
-packaging
